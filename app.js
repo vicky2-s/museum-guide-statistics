@@ -157,6 +157,10 @@ function renderGuideCheckbox(){
 // 绑定按钮
 
 function bindEvents(){
+    document
+.getElementById("historyBtn")
+.onclick=
+loadHistory;
 
 
 document
@@ -395,5 +399,251 @@ ${stats[g.name].people}
 document.getElementById("summary")
 .innerHTML=html;
 
+
+}
+async function saveRecord(){
+
+
+let duty=[];
+
+
+document
+.querySelectorAll(".dutyGuide")
+.forEach(item=>{
+
+if(item.checked){
+
+duty.push(item.value);
+
+}
+
+});
+
+
+
+let data={
+
+date:
+new Date()
+.toISOString()
+.slice(0,10),
+
+
+ticket_count:
+Number(
+document.getElementById("ticketCount").value
+)||0,
+
+
+income:
+Number(
+document.getElementById("income").innerText
+),
+
+
+commission:
+Number(
+document.getElementById("commission").innerText
+),
+
+
+duty_guides:duty,
+
+
+sessions:getSessions(),
+
+
+created_by:
+currentUser.name
+
+};
+
+
+
+const {error}=await db
+.from("daily_records")
+.insert(data);
+
+
+
+if(error){
+
+alert("保存失败");
+
+console.log(error);
+
+return;
+
+}
+
+
+
+alert("今日记录保存成功！");
+
+
+}
+function getSessions(){
+
+let arr=[];
+
+
+document
+.querySelectorAll(".session")
+.forEach(row=>{
+
+
+arr.push({
+
+guide:
+row.querySelector(".sessionGuide").value,
+
+
+time:
+row.querySelector(".sessionTime").value,
+
+
+people:
+Number(
+row.querySelector(".sessionPeople").value
+)||0
+
+
+});
+
+
+});
+
+
+return arr;
+
+}
+async function loadHistory(){
+
+
+const {data,error}=await db
+.from("daily_records")
+.select("*")
+.order("date",{ascending:false});
+
+
+
+if(error){
+
+console.log(error);
+return;
+
+}
+
+
+
+let html="<h3>历史记录</h3>";
+
+
+
+data.forEach(r=>{
+
+
+html+=`
+
+<div class="historyItem">
+
+<p>
+日期：
+${r.date}
+</p>
+
+<p>
+游客：
+${r.ticket_count} 人
+</p>
+
+<p>
+收入：
+${r.income} 元
+</p>
+
+<p>
+提成：
+${r.commission} 元
+</p>
+
+<button onclick='loadRecord(${JSON.stringify(r)})'>
+
+编辑
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+});
+
+
+
+document
+.getElementById("historyPanel")
+.innerHTML=html;
+
+
+}
+function loadRecord(r){
+
+
+document
+.getElementById("ticketCount")
+.value=
+r.ticket_count;
+
+
+
+calculate();
+
+
+
+document
+.querySelectorAll(".dutyGuide")
+.forEach(c=>{
+
+c.checked=
+r.duty_guides.includes(c.value);
+
+});
+
+
+
+document
+.getElementById("sessionList")
+.innerHTML="";
+
+
+r.sessions.forEach(s=>{
+
+
+addSession();
+
+
+let rows=
+document.querySelectorAll(".session");
+
+
+let row=
+rows[rows.length-1];
+
+
+row.querySelector(".sessionGuide").value=s.guide;
+
+row.querySelector(".sessionTime").value=s.time;
+
+row.querySelector(".sessionPeople").value=s.people;
+
+
+});
+
+
+alert("已加载历史记录");
 
 }
