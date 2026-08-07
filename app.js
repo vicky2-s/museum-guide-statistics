@@ -404,6 +404,9 @@ document.getElementById("summary")
 
 async function saveRecord(){
 
+alert("saveRecord运行了");
+
+
 
 let duty=[];
 
@@ -469,7 +472,9 @@ const {error}=await db
 
 if(error){
 
-alert("保存失败");
+alert(
+"保存失败：" + error.message
+);
 
 console.log(error);
 
