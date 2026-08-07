@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>博物馆讲解服务每日统计</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div id="app">
+
+<header>
+
+<h1>🏛 博物馆讲解服务每日统计</h1>
+
+<p id="today"></p>
+
+</header>
+
+
+<!-- 登录 -->
+
+<section id="loginCard" class="card">
+
+<h2>登录</h2>
+
+<input
+id="username"
+placeholder="账号">
+
+<input
+id="password"
+type="password"
+placeholder="密码">
+
+<button id="loginBtn">
+
+登录
+
+</button>
+
+<p id="loginMessage"></p>
+
+</section>
+
+
+<!-- 主页面 -->
+
+<section id="mainPage" style="display:none;">
+
+
+<!-- 值班 -->
+
+<div class="card">
+
+<h2>👥 今日值班</h2>
+
+<div id="guideCheckboxes"></div>
+
+</div>
+
+
+
+<!-- 售票 -->
+
+<div class="card">
+
+<h2>🎫 今日售票（总接待人数）</h2>
+
+<input
+type="number"
+id="ticketCount"
+placeholder="请输入今日总人数">
+
+<div class="result">
+
+<p>
+
+总收入：
+
+<span id="income">
+
+0.00
+
+</span>
+
+元
+
+</p>
+
+<p>
+
+总提成：
+
+<span id="commission">
+
+0.00
+
+</span>
+
+元
+
+</p>
+
+</div>
+
+</div>
+
+
+
+
+<!-- 讲解记录 -->
+
+<div class="card">
+
+<h2>🎤 今日讲解记录</h2>
+
+<div id="sessionList"></div>
+
+<button id="addSession">
+
+➕ 添加讲解场次
+
+</button>
+
+</div>
+
+
+
+
+<!-- 自动统计 -->
+
+<div class="card">
+
+<h2>📊 今日统计</h2>
+
+<div id="summary"></div>
+
+</div>
+
+
+
+
+<!-- 核对 -->
+
+<div class="card">
+
+<h2>✅ 数据核对</h2>
+
+<p id="checkResult">
+
+等待录入……
+
+</p>
+
+</div>
+
+
+
+
+<div class="card">
+
+<button id="saveBtn">
+
+💾 保存今日记录
+
+</button>
+
+<button id="historyBtn">
+
+📚 历史记录
+
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+<script src="config.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script src="supabase.js"></script>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
