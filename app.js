@@ -11,9 +11,10 @@ let monthChart = null;
 
 
 
-// ======================
+// ===============================
 // 页面加载
-// ======================
+// ===============================
+
 
 window.onload = async function(){
 
@@ -41,20 +42,20 @@ window.onload = async function(){
 
 
 
-// ======================
-// 日期
-// ======================
+// ===============================
+// 今日日期显示
+// ===============================
 
 
 function showToday(){
 
 
-    const today=new Date();
+    const today = new Date();
 
 
     document
     .getElementById("today")
-    .innerText=
+    .innerText =
 
     today.getFullYear()
     +"年"
@@ -69,7 +70,10 @@ function showToday(){
 
 
 
-// 默认今天日期
+// ===============================
+// 默认记录日期
+// ===============================
+
 
 function setDefaultDate(){
 
@@ -92,14 +96,13 @@ function setDefaultDate(){
 
 
 
-
-
-// ======================
+// ===============================
 // 自动登录
-// ======================
+// ===============================
 
 
 function checkAutoLogin(){
+
 
 
     let saved =
@@ -112,7 +115,7 @@ function checkAutoLogin(){
     if(saved){
 
 
-        currentUser=
+        currentUser =
         JSON.parse(saved);
 
 
@@ -135,7 +138,6 @@ function checkAutoLogin(){
     }
 
 
-
 }
 
 
@@ -143,55 +145,13 @@ function checkAutoLogin(){
 
 
 
-
-
-// ======================
-// 获取讲解员
-// ======================
-
-
-async function loadGuides(){
-
-
-    const {data,error}=await db
-    .from("guides")
-    .select("*");
-
-
-
-    if(error){
-
-        console.log(error);
-
-        return;
-
-    }
-
-
-
-    guides=data;
-
-
-    renderGuideCheckbox();
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// ======================
+// ===============================
 // 登录
-// ======================
+// ===============================
 
 
 async function login(){
+
 
 
     const username =
@@ -209,7 +169,6 @@ async function login(){
 
 
 
-
     const {data,error}=await db
     .from("guides")
     .select("*")
@@ -220,13 +179,13 @@ async function login(){
 
 
 
+
     if(error || !data){
 
 
         document
         .getElementById("loginMessage")
-        .innerText=
-        "账号或密码错误";
+        .innerText="账号或密码错误";
 
 
         return;
@@ -242,9 +201,13 @@ async function login(){
 
 
     localStorage.setItem(
+
         "museumUser",
+
         JSON.stringify(data)
+
     );
+
 
 
 
@@ -274,50 +237,48 @@ async function login(){
 
 
 
+// ===============================
+// 获取讲解员
+// ===============================
 
 
-// ======================
-// 退出
-// ======================
-
-
-function logout(){
-
-
-    localStorage.removeItem(
-        "museumUser"
-    );
-
-
-    currentUser=null;
+async function loadGuides(){
 
 
 
-    document
-    .getElementById("mainPage")
-    .style.display="none";
+    const {data,error}=await db
+    .from("guides")
+    .select("*");
 
 
 
-    document
-    .getElementById("loginCard")
-    .style.display="block";
+
+    if(error){
+
+
+        console.log(error);
+
+
+        return;
+
+
+    }
+
+
+
+
+    guides=data;
+
+
+
+    renderGuideCheckbox();
+
 
 
 }
-
-
-
-
-
-
-
-
-
-
-// ======================
-// 值班人员
-// ======================
+// ===============================
+// 显示值班人员
+// ===============================
 
 
 function renderGuideCheckbox(){
@@ -325,9 +286,8 @@ function renderGuideCheckbox(){
 
     const box =
     document
-    .getElementById(
-        "guideCheckboxes"
-    );
+    .getElementById("guideCheckboxes");
+
 
 
     box.innerHTML="";
@@ -337,7 +297,7 @@ function renderGuideCheckbox(){
     guides.forEach(g=>{
 
 
-        box.innerHTML+=`
+        box.innerHTML += `
 
 
         <label>
@@ -364,9 +324,7 @@ function renderGuideCheckbox(){
         `;
 
 
-
     });
-
 
 
 
@@ -376,11 +334,12 @@ function renderGuideCheckbox(){
     .forEach(item=>{
 
 
-        item.onchange=
+        item.onchange =
         calculateShare;
 
 
     });
+
 
 
 }
@@ -392,10 +351,9 @@ function renderGuideCheckbox(){
 
 
 
-
-// ======================
+// ===============================
 // 事件绑定
-// ======================
+// ===============================
 
 
 function bindEvents(){
@@ -409,14 +367,14 @@ function bindEvents(){
 
 
     document
-    .getElementById("saveBtn")
-    .onclick=saveRecord;
+    .getElementById("addSession")
+    .onclick=addSession;
 
 
 
     document
-    .getElementById("addSession")
-    .onclick=addSession;
+    .getElementById("saveBtn")
+    .onclick=saveRecord;
 
 
 
@@ -448,10 +406,9 @@ function bindEvents(){
 
 
 
-
-// ======================
-// 自动计算
-// ======================
+// ===============================
+// 自动计算人数 收入
+// ===============================
 
 
 function calculate(){
@@ -476,6 +433,7 @@ function calculate(){
 
 
 
+
     document
     .getElementById("todayPeople")
     .innerText=count;
@@ -483,17 +441,20 @@ function calculate(){
 
 
 
+    let income =
+    count * 45;
 
-    let income=count*45;
 
 
-    let commission=count*1.8;
+    let commission =
+    count * 1.8;
+
 
 
 
     document
     .getElementById("income")
-    .innerText=
+    .innerText =
     income.toFixed(2);
 
 
@@ -501,13 +462,14 @@ function calculate(){
 
     document
     .getElementById("commission")
-    .innerText=
+    .innerText =
     commission.toFixed(2);
 
 
 
 
     calculateShare();
+
 
 
     checkData();
@@ -522,9 +484,11 @@ function calculate(){
 
 
 
-// ======================
+
+
+// ===============================
 // 提成分配
-// ======================
+// ===============================
 
 
 function calculateShare(){
@@ -535,6 +499,7 @@ function calculateShare(){
 
 
 
+
     document
     .querySelectorAll(".dutyGuide")
     .forEach(item=>{
@@ -542,9 +507,11 @@ function calculateShare(){
 
         if(item.checked){
 
+
             checked.push(
                 item.value
             );
+
 
         }
 
@@ -554,12 +521,17 @@ function calculateShare(){
 
 
 
-    let total=
+
+    let total =
+
     Number(
+
         document
         .getElementById("commission")
         .innerText
+
     );
+
 
 
 
@@ -568,23 +540,30 @@ function calculateShare(){
 
 
 
+
+
     guides.forEach(g=>{
+
 
 
         let money=0;
 
 
 
+
         if(
+
             checked.includes(g.name)
+
             &&
+
             checked.length>0
+
         ){
 
 
-            money=
-            total/
-            checked.length;
+            money =
+            total / checked.length;
 
 
         }
@@ -593,17 +572,22 @@ function calculateShare(){
 
 
 
-        html+=`
+        html += `
+
 
         <p>
 
-        ${g.name}：
+        ${g.name}
+
+       ：
 
         ${money.toFixed(2)}
 
         元
 
+
         </p>
+
 
         `;
 
@@ -614,18 +598,31 @@ function calculateShare(){
 
 
 
+
+
     document
     .getElementById("summary")
     .innerHTML=html;
 
 
+
 }
-// ======================
+
+
+
+
+
+
+
+
+
+// ===============================
 // 添加讲解场次
-// ======================
+// ===============================
 
 
 function addSession(){
+
 
 
     let div =
@@ -637,7 +634,10 @@ function addSession(){
 
 
 
+
+
     div.innerHTML=`
+
 
 
 <select class="sessionGuide">
@@ -656,8 +656,8 @@ ${g.name}
 `).join("")}
 
 
-</select>
 
+</select>
 
 
 
@@ -666,7 +666,8 @@ ${g.name}
 
 class="sessionTime"
 
-placeholder="讲解时间">
+placeholder="时间">
+
 
 
 
@@ -686,20 +687,22 @@ oninput="calculate()">
 
 
 
+
 <button
 
-onclick="
-this.parentElement.remove();
-calculate();
-">
+onclick="this.parentElement.remove();calculate();">
+
 
 删除
+
 
 </button>
 
 
 
+
 `;
+
 
 
 
@@ -711,19 +714,9 @@ calculate();
 
 
 }
-
-
-
-
-
-
-
-
-
-
-// ======================
-// 获取讲解数据
-// ======================
+// ===============================
+// 获取讲解记录
+// ===============================
 
 
 function getSessions(){
@@ -740,30 +733,21 @@ function getSessions(){
 
         arr.push({
 
-
             guide:
-            row
-            .querySelector(".sessionGuide")
-            .value,
+            row.querySelector(".sessionGuide").value,
 
 
             time:
-            row
-            .querySelector(".sessionTime")
-            .value,
+            row.querySelector(".sessionTime").value,
 
 
             people:
             Number(
-            row
-            .querySelector(".sessionPeople")
-            .value
-            )||0
-
+                row.querySelector(".sessionPeople").value
+            ) || 0
 
 
         });
-
 
 
     });
@@ -782,11 +766,9 @@ function getSessions(){
 
 
 
-
-
-// ======================
+// ===============================
 // 保存记录
-// ======================
+// ===============================
 
 
 async function saveRecord(){
@@ -804,7 +786,9 @@ async function saveRecord(){
 
         if(item.checked){
 
+
             duty.push(item.value);
+
 
         }
 
@@ -816,14 +800,20 @@ async function saveRecord(){
 
 
 
-    let recordDate =
+    // 关键修复：
+    // 使用选择日期，而不是系统今天日期
+
+
+    let date =
+
     document
     .getElementById("recordDate")
     .value;
 
 
 
-    if(!recordDate){
+
+    if(!date){
 
 
         alert("请选择记录日期");
@@ -839,37 +829,47 @@ async function saveRecord(){
 
 
 
+
     let data={
 
 
 
-        date:recordDate,
+        date:date,
 
 
 
         ticket_count:
+
         Number(
-        document
-        .getElementById("todayPeople")
-        .innerText
+
+            document
+            .getElementById("todayPeople")
+            .innerText
+
         ),
 
 
 
         income:
+
         Number(
-        document
-        .getElementById("income")
-        .innerText
+
+            document
+            .getElementById("income")
+            .innerText
+
         ),
 
 
 
         commission:
+
         Number(
-        document
-        .getElementById("commission")
-        .innerText
+
+            document
+            .getElementById("commission")
+            .innerText
+
         ),
 
 
@@ -878,12 +878,12 @@ async function saveRecord(){
 
 
 
-        sessions:
-        getSessions(),
+        sessions:getSessions(),
 
 
 
         created_by:
+
         currentUser.name
 
 
@@ -898,44 +898,9 @@ async function saveRecord(){
 
 
 
-    // 防止同一天重复保存
-
-    if(!currentEditingId){
-
-
-
-        const {data:exist}=await db
-        .from("daily_records")
-        .select("id")
-        .eq("date",recordDate)
-        .single();
-
-
-
-
-        if(exist){
-
-
-            alert(
-            "该日期已经存在记录，请使用历史记录修改"
-            );
-
-
-            return;
-
-
-        }
-
-
-    }
-
-
-
-
-
-
-
     let result;
+
+
 
 
 
@@ -944,10 +909,18 @@ async function saveRecord(){
 
 
         result=
+
         await db
+
         .from("daily_records")
+
         .update(data)
-        .eq("id",currentEditingId);
+
+        .eq(
+            "id",
+            currentEditingId
+        );
+
 
 
 
@@ -958,8 +931,11 @@ async function saveRecord(){
 
 
         result=
+
         await db
+
         .from("daily_records")
+
         .insert(data);
 
 
@@ -973,12 +949,14 @@ async function saveRecord(){
 
 
 
+
     if(result.error){
 
 
-
         alert(
-        "保存失败："+result.error.message
+            "保存失败："
+            +
+            result.error.message
         );
 
 
@@ -995,8 +973,14 @@ async function saveRecord(){
 
 
 
+    alert(
+        currentEditingId
+        ?
+        "修改成功！"
+        :
+        "保存成功！"
+    );
 
-    alert("保存成功！");
 
 
 
@@ -1005,18 +989,29 @@ async function saveRecord(){
 
 
 
+
     loadStatistics();
 
 
 
 
-    if(currentUser.name==="李林亚"){
+
+    // 李林亚彩蛋
+
+
+    if(
+
+        currentUser.name==="李林亚"
+
+    ){
 
 
         showLinyaGift();
 
 
     }
+
+
 
 
 
@@ -1030,10 +1025,9 @@ async function saveRecord(){
 
 
 
-
-// ======================
+// ===============================
 // 历史记录
-// ======================
+// ===============================
 
 
 async function loadHistory(){
@@ -1041,14 +1035,18 @@ async function loadHistory(){
 
 
     const {data,error}=await db
+
     .from("daily_records")
+
     .select("*")
+
     .order(
         "date",
         {
-        ascending:false
+            ascending:false
         }
     );
+
 
 
 
@@ -1063,7 +1061,6 @@ async function loadHistory(){
 
 
     }
-
 
 
 
@@ -1075,94 +1072,233 @@ async function loadHistory(){
 
 
 
+
     data.forEach(r=>{
 
 
-        html+=`
+
+        html +=`
 
 
 
-<div class="history-item">
+        <div class="history-item">
 
 
 
-<p>
+        <p>
 
-📅 日期：
+        📅 日期：
 
-${r.date}
+        ${r.date}
 
-</p>
-
-
-
-<p>
-
-👥 接待人数：
-
-${r.ticket_count}
-
-人
-
-</p>
+        </p>
 
 
 
 
-<p>
 
-💰 收入：
+        <p>
 
-${r.income}
+        👥 接待人数：
 
-元
+        ${r.ticket_count}
 
-</p>
+        人
+
+        </p>
 
 
+
+
+
+        <p>
+
+        💰 收入：
+
+        ${r.income}
+
+        元
+
+        </p>
+
+
+
+
+
+
+        <button
+
+        onclick='loadRecord(${JSON.stringify(r)})'>
+
+
+        查看修改
+
+
+        </button>
+
+
+
+
+
+
+        <button
+
+        onclick="deleteRecord(${r.id})">
+
+
+        删除
+
+
+        </button>
+
+
+
+
+
+        </div>
+
+
+
+        `;
+
+
+
+
+    });
+
+
+
+
+
+
+
+    document
+
+    .getElementById("historyPanel")
+
+    .innerHTML=html;
+
+
+
+
+}
+// ===============================
+// 加载单条记录进行修改
+// ===============================
+
+function loadRecord(record){
+
+
+currentEditingId = record.id;
+
+
+
+document
+.getElementById("recordDate")
+.value = record.date;
+
+
+
+// 清空当前场次
+
+document
+.getElementById("sessionList")
+.innerHTML="";
+
+
+
+// 恢复场次
+
+if(record.sessions){
+
+
+record.sessions.forEach(s=>{
+
+
+let div =
+document.createElement("div");
+
+
+div.className="session";
+
+
+
+div.innerHTML=`
+
+
+<select class="sessionGuide">
+
+${guides.map(g=>`
+
+<option
+
+value="${g.name}"
+
+${g.name===s.guide?"selected":""}
+
+>
+
+${g.name}
+
+</option>
+
+`).join("")}
+
+
+</select>
+
+
+
+<input
+
+class="sessionTime"
+
+value="${s.time || ""}"
+
+placeholder="时间"
+
+
+
+>
+
+
+
+<input
+
+class="sessionPeople"
+
+type="number"
+
+value="${s.people || 0}"
+
+oninput="calculate()"
+
+
+
+>
 
 
 
 <button
 
-onclick='loadRecord(${JSON.stringify(r)})'>
-
-查看修改
-
-</button>
-
-
-
-
-<button
-
-onclick="deleteRecord(${r.id})">
+onclick="this.parentElement.remove();calculate();">
 
 删除
 
 </button>
 
 
-
-</div>
-
-
-
 `;
 
 
 
-    });
+document
+.getElementById("sessionList")
+.appendChild(div);
 
 
 
-
-
-
-
-    document
-    .getElementById("historyPanel")
-    .innerHTML=html;
+});
 
 
 
@@ -1171,117 +1307,32 @@ onclick="deleteRecord(${r.id})">
 
 
 
+// 恢复值班人员
 
+document
+.querySelectorAll(".dutyGuide")
+.forEach(item=>{
 
 
+item.checked =
+record.duty_guides.includes(
+item.value
+);
 
 
-// ======================
-// 加载历史记录
-// ======================
 
+});
 
-function loadRecord(r){
 
 
 
-    currentEditingId=r.id;
+calculate();
 
 
 
-
-
-    document
-    .getElementById("recordDate")
-    .value=r.date;
-
-
-
-
-
-    document
-    .getElementById("sessionList")
-    .innerHTML="";
-
-
-
-
-
-    document
-    .querySelectorAll(".dutyGuide")
-    .forEach(c=>{
-
-
-        c.checked=
-        r.duty_guides
-        .includes(c.value);
-
-
-
-    });
-
-
-
-
-
-
-
-
-    r.sessions.forEach(s=>{
-
-
-        addSession();
-
-
-
-        let rows=
-        document
-        .querySelectorAll(".session");
-
-
-
-        let row=
-        rows[
-        rows.length-1
-        ];
-
-
-
-
-        row
-        .querySelector(".sessionGuide")
-        .value=s.guide;
-
-
-
-
-        row
-        .querySelector(".sessionTime")
-        .value=s.time;
-
-
-
-
-        row
-        .querySelector(".sessionPeople")
-        .value=s.people;
-
-
-
-    });
-
-
-
-
-
-    calculate();
-
-
-
-    alert(
-    "历史记录已加载，可以修改后保存"
-    );
-
+alert(
+"已加载记录，可以修改后保存"
+);
 
 
 }
@@ -1290,72 +1341,78 @@ function loadRecord(r){
 
 
 
-
-
-
-
-
-// ======================
+// ===============================
 // 删除记录
-// ======================
-
+// ===============================
 
 async function deleteRecord(id){
 
 
 
-    if(
-    !confirm(
-    "确定删除这条记录吗？"
-    )
-    ){
-
-
-        return;
-
-
-    }
+let ok =
+confirm(
+"确定删除这条记录吗？"
+);
 
 
 
+if(!ok){
 
+return;
 
-
-    const {error}=await db
-    .from("daily_records")
-    .delete()
-    .eq("id",id);
+}
 
 
 
 
 
+const {error}=await db
 
-    if(error){
+.from("daily_records")
 
+.delete()
 
-
-        alert("删除失败");
-
-
-        console.log(error);
-
-
-        return;
-
-
-    }
+.eq(
+"id",
+id
+);
 
 
 
 
 
-
-    alert("删除成功");
-
+if(error){
 
 
-    loadHistory();
+alert(
+"删除失败："
++
+error.message
+);
+
+
+console.log(error);
+
+
+return;
+
+
+}
+
+
+
+
+
+alert(
+"删除成功！"
+);
+
+
+
+loadHistory();
+
+
+loadStatistics();
 
 
 
@@ -1365,52 +1422,75 @@ async function deleteRecord(id){
 
 
 
-
-
-
-
-// ======================
-// 新建今日
-// ======================
-
+// ===============================
+// 新建今日记录
+// ===============================
 
 function newToday(){
 
 
 
-    currentEditingId=null;
+currentEditingId=null;
+
+
+
+document
+.getElementById("sessionList")
+.innerHTML="";
 
 
 
 
-    setDefaultDate();
+document
+.querySelectorAll(".dutyGuide")
+.forEach(item=>{
+
+
+item.checked=false;
+
+
+});
 
 
 
 
-    document
-    .getElementById("sessionList")
-    .innerHTML="";
+document
+.getElementById("recordDate")
+.value =
+new Date()
+.toISOString()
+.slice(0,10);
 
 
 
 
-    document
-    .querySelectorAll(".dutyGuide")
-    .forEach(c=>{
-
-
-        c.checked=false;
-
-
-    });
+document
+.getElementById("todayPeople")
+.innerText="0";
 
 
 
+document
+.getElementById("income")
+.innerText="0.00";
 
 
-    calculate();
 
+document
+.getElementById("commission")
+.innerText="0.00";
+
+
+
+document
+.getElementById("summary")
+.innerHTML="";
+
+
+
+alert(
+"已新建记录"
+);
 
 
 }
@@ -1420,457 +1500,181 @@ function newToday(){
 
 
 
-
-
-
-// ======================
+// ===============================
 // 数据核对
-// ======================
-
+// ===============================
 
 function checkData(){
 
 
 
-    let people=0;
+let people =
+Number(
+document
+.getElementById("todayPeople")
+?.innerText
+)
+||0;
 
 
 
-    document
-    .querySelectorAll(".sessionPeople")
-    .forEach(input=>{
-
-
-        people +=
-        Number(input.value)||0;
-
-
-    });
+let income =
+Number(
+document
+.getElementById("income")
+?.innerText
+)
+||0;
 
 
 
-
-
-    let result="";
-
-
-
-
-
-    if(people===0){
-
-
-        result=
-        "等待录入……";
-
-
-    }
-
-
-    else{
-
-
-        result=`
-
-        ✅ 数据正常
-
-        <br>
-
-        讲解人数：
-
-        ${people}
-
-        人
-
-        `;
-
-
-    }
+let commission =
+Number(
+document
+.getElementById("commission")
+?.innerText
+)
+||0;
 
 
 
-
-
-
-    document
-    .getElementById("checkResult")
-    .innerHTML=result;
+console.log(
+"数据核对:",
+{
+游客人数:people,
+收入:income,
+提成:commission
+}
+);
 
 
 
 }
-// ======================
-// 周/月统计
-// ======================
 
+
+
+
+
+// ===============================
+// 统计
+// ===============================
 
 async function loadStatistics(){
 
 
 
-    const now =
-    new Date();
+const {data,error}=await db
 
+.from("daily_records")
 
+.select("*");
 
 
-    const year =
-    now.getFullYear();
 
 
 
-    const month =
-    String(
-        now.getMonth()+1
-    )
-    .padStart(2,"0");
+if(error){
 
+console.log(error);
 
+return;
 
+}
 
 
-    const start =
-    `${year}-${month}-01`;
 
 
+// 今日
 
-    const end =
-    `${year}-${month}-31`;
+let today =
+new Date()
+.toISOString()
+.slice(0,10);
 
 
 
 
+let todayData =
+data.filter(
+r=>r.date===today
+);
 
 
 
 
-    const {data,error}=await db
-    .from("daily_records")
-    .select("*")
-    .gte("date",start)
-    .lte("date",end);
+let todayPeople =
+todayData.reduce(
+(sum,r)=>
+sum+r.ticket_count
+,0);
 
 
 
+document
+.getElementById("todayPeople")
+.innerText =
+todayPeople;
 
 
-    if(error){
 
 
-        console.log(error);
 
 
-        return;
+// ===============================
+// 周统计
+// ===============================
 
 
-    }
 
+let now =
+new Date();
 
 
 
+// 修复 monday 顺序 bug
 
+let monday =
+new Date(now);
 
-    let monthPeople=0;
 
 
-    let monthIncome=0;
+let day =
+monday.getDay();
 
 
-    let monthCommission=0;
 
+if(day===0){
 
+day=7;
 
+}
 
 
-    data.forEach(r=>{
 
+monday.setDate(
+monday.getDate()-day+1
+);
 
-        monthPeople +=
-        r.ticket_count;
 
 
-        monthIncome +=
-        r.income;
+monday.setHours(
+0,0,0,0
+);
 
 
-        monthCommission +=
-        r.commission;
 
+let weekData =
+data.filter(r=>{
 
-    });
 
+let d =
+new Date(r.date);
 
 
 
-
-
-
-
-
-    // ===== 本周 =====
-
-
-    let today =
-    new Date();
-
-
-
-    let day =
-    today.getDay();
-
-
-
-    let monday =
-    new Date(today);
-
-
-
-    monday.setDate(
-
-        today.getDate()
-        -
-        (
-        day===0
-        ?
-        6
-        :
-        day-1
-        )
-
-    );
-
-
-
-
-
-    let weekPeople=0;
-
-
-    let weekIncome=0;
-
-
-
-
-    let weekLabels=[];
-
-
-    let weekValues=[];
-
-
-
-
-
-
-    for(let i=0;i<7;i++){
-
-
-
-        let d =
-        new Date(monday);
-
-
-
-        d.setDate(
-            monday.getDate()+i
-        );
-
-
-
-        let key =
-        d.toISOString()
-        .slice(0,10);
-
-
-
-
-        weekLabels.push(
-            key.substring(5)
-        );
-
-
-
-
-        let num=0;
-
-
-
-        data.forEach(r=>{
-
-
-            if(r.date===key){
-
-
-                num =
-                r.ticket_count;
-
-
-            }
-
-
-        });
-
-
-
-
-
-        weekValues.push(num);
-
-
-
-
-
-        data.forEach(r=>{
-
-
-            if(r.date===key){
-
-
-                weekPeople +=
-                r.ticket_count;
-
-
-
-                weekIncome +=
-                r.income;
-
-
-
-            }
-
-
-
-        });
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-    document
-    .getElementById("statistics")
-    .innerHTML=`
-
-
-
-<h3>
-📅 本周统计
-</h3>
-
-
-<p>
-
-👥 接待人数：
-
-${weekPeople}
-
-人
-
-</p>
-
-
-
-<p>
-
-💰 收入：
-
-${weekIncome.toFixed(2)}
-
-元
-
-</p>
-
-
-
-
-
-
-<h3>
-
-📊 本月统计
-
-</h3>
-
-
-
-
-<p>
-
-👥 接待人数：
-
-${monthPeople}
-
-人
-
-</p>
-
-
-
-<p>
-
-💰 收入：
-
-${monthIncome.toFixed(2)}
-
-元
-
-</p>
-
-
-
-<p>
-
-💵 提成：
-
-${monthCommission.toFixed(2)}
-
-元
-
-</p>
-
-
-
-`;
-
-
-
-
-
-
-
-
-
-// ======================
-// 月度折线图
-// ======================
-
-
-let monthLabels=[];
-
-let monthValues=[];
-
-
-
-
-
-data.forEach(r=>{
-
-
-    monthLabels.push(
-        r.date.substring(5)
-    );
-
-
-
-    monthValues.push(
-        r.ticket_count
-    );
+return d>=monday
+&&
+d<=now;
 
 
 
@@ -1882,10 +1686,55 @@ data.forEach(r=>{
 
 
 
-if(monthChart){
+let weekLabels=[];
+
+let weekValues=[];
 
 
-    monthChart.destroy();
+
+for(
+let i=0;
+i<7;
+i++
+){
+
+
+let d =
+new Date(monday);
+
+
+
+d.setDate(
+monday.getDate()+i
+);
+
+
+
+let str =
+d.toISOString()
+.slice(0,10);
+
+
+
+weekLabels.push(
+str.slice(5)
+);
+
+
+
+weekValues.push(
+
+weekData
+.filter(
+r=>r.date===str
+)
+.reduce(
+(sum,r)=>
+sum+r.ticket_count
+,0)
+
+);
+
 
 
 }
@@ -1894,49 +1743,154 @@ if(monthChart){
 
 
 
+drawWeekChart(
+weekLabels,
+weekValues
+);
 
 
-monthChart =
-new Chart(
 
 
+
+
+// ===============================
+// 月统计
+// ===============================
+
+
+let year =
+now.getFullYear();
+
+
+
+let month =
+now.getMonth();
+
+
+
+let monthData =
+data.filter(r=>{
+
+
+let d =
+new Date(r.date);
+
+
+return (
+
+d.getFullYear()
+===year
+
+&&
+
+d.getMonth()
+===month
+
+);
+
+
+});
+
+
+
+
+let monthLabels=[];
+
+let monthValues=[];
+
+
+
+
+monthData.forEach(r=>{
+
+
+monthLabels.push(
+r.date.slice(8)
+);
+
+
+monthValues.push(
+r.ticket_count
+);
+
+
+});
+
+
+
+
+drawMonthChart(
+monthLabels,
+monthValues
+);
+
+
+
+}
+
+
+
+
+
+// ===============================
+// 周图表
+// ===============================
+
+function drawWeekChart(
+labels,
+values
+){
+
+
+
+let ctx =
 document
-.getElementById(
-"monthChart"
-),
+.getElementById("weekChart");
 
 
 
+if(!ctx){
+
+return;
+
+}
+
+
+
+if(weekChart){
+
+weekChart.destroy();
+
+}
+
+
+
+
+weekChart =
+new Chart(
+ctx,
 {
 
 
-type:"line",
-
+type:"bar",
 
 
 data:{
 
 
-
-labels:
-monthLabels,
-
+labels:labels,
 
 
 datasets:[{
 
 
-label:
-"每日接待人数",
+label:"游客人数",
 
 
-data:
-monthValues
-
+data:values
 
 
 }]
-
 
 
 }
@@ -1948,3 +1902,161 @@ monthValues
 );
 
 
+
+}
+
+
+
+
+
+
+
+// ===============================
+// 月图表
+// ===============================
+
+function drawMonthChart(
+labels,
+values
+){
+
+
+
+let ctx =
+document
+.getElementById("monthChart");
+
+
+
+if(!ctx){
+
+return;
+
+}
+
+
+
+
+if(monthChart){
+
+monthChart.destroy();
+
+}
+
+
+
+monthChart =
+new Chart(
+ctx,
+{
+
+
+type:"line",
+
+
+data:{
+
+
+labels:labels,
+
+
+datasets:[{
+
+
+label:"游客人数",
+
+
+data:values
+
+
+}]
+
+
+}
+
+
+
+}
+
+);
+
+
+
+}
+
+
+
+
+
+
+// ===============================
+// 李林亚彩蛋
+// ===============================
+
+function showLinyaGift(){
+
+
+
+alert(
+"🦷 小牙上线！\n\n今天也辛苦讲解啦～"
+);
+
+
+
+}
+
+
+
+
+
+
+// ===============================
+// 退出登录
+// ===============================
+
+function logout(){
+
+
+
+localStorage
+.removeItem(
+"museumUser"
+);
+
+
+
+currentUser=null;
+
+
+
+document
+.getElementById("mainPage")
+.style.display="none";
+
+
+
+document
+.getElementById("loginCard")
+.style.display="block";
+
+
+
+document
+.getElementById("username")
+.value="";
+
+
+
+document
+.getElementById("password")
+.value="";
+
+
+
+alert(
+"已退出登录"
+);
+
+
+
+}
