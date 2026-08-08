@@ -26,12 +26,51 @@ window.onload = async function(){
     bindEvents();
 
 
+    checkAutoLogin();
+
+
     checkData();
 
 
 };
 
+function checkAutoLogin(){
 
+
+    let saved =
+    localStorage.getItem("museumUser");
+
+
+
+    if(saved){
+
+
+        currentUser =
+        JSON.parse(saved);
+
+
+
+        document
+        .getElementById("loginCard")
+        .style.display="none";
+
+
+
+        document
+        .getElementById("mainPage")
+        .style.display="block";
+
+
+
+        loadStatistics();
+
+
+
+    }
+
+
+
+}
 
 
 
@@ -263,6 +302,9 @@ function renderGuideCheckbox(){
 // 事件
 
 function bindEvents(){
+    document
+.getElementById("logoutBtn")
+.onclick=logout;
 
 
 
@@ -1291,6 +1333,59 @@ async function loadStatistics(){
 
 
     let weekIncome=0;
+    let weekLabels=[];
+
+let weekValues=[];
+
+
+for(let i=0;i<7;i++){
+
+
+    let d=new Date(monday);
+
+
+    d.setDate(
+        monday.getDate()+i
+    );
+
+
+    let key =
+    d.toISOString()
+    .slice(0,10);
+
+
+
+    weekLabels.push(
+        key.substring(5)
+    );
+
+
+
+    let num=0;
+
+
+
+    data.forEach(r=>{
+
+
+        if(r.date===key){
+
+
+            num=r.ticket_count;
+
+
+        }
+
+
+    });
+
+
+
+    weekValues.push(num);
+
+
+
+}
 
 
 
@@ -1447,6 +1542,49 @@ async function loadStatistics(){
 
     monthChart =
     new Chart(
+        if(weekChart){
+
+    weekChart.destroy();
+
+}
+
+
+
+weekChart =
+new Chart(
+
+document
+.getElementById("weekChart"),
+
+
+{
+
+
+type:"bar",
+
+
+data:{
+
+
+labels:weekLabels,
+
+
+datasets:[{
+
+
+label:"本周每日接待人数",
+
+
+data:weekValues
+
+
+}]
+
+
+}
+
+
+});
 
     document
     .getElementById("monthChart"),
@@ -1572,6 +1710,32 @@ function showLinyaGift(){
 
 
     },4000);
+
+
+
+}
+function logout(){
+
+
+    localStorage.removeItem(
+        "museumUser"
+    );
+
+
+
+    currentUser=null;
+
+
+
+    document
+    .getElementById("mainPage")
+    .style.display="none";
+
+
+
+    document
+    .getElementById("loginCard")
+    .style.display="block";
 
 
 
