@@ -247,6 +247,10 @@ function calculate(){
     .innerText=
     income.toFixed(2);
 
+    document
+    .getElementById("visitorCount")
+    .innerText=count;
+
 
 
     document
