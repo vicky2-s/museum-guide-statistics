@@ -20,6 +20,7 @@
 <div id="app">
 
 
+
 <header>
 
 <h1>🏛 博物馆讲解服务每日统计</h1>
@@ -37,18 +38,18 @@
 <section id="loginCard" class="card">
 
 
-<h2>管理员入口</h2>
+<h2>登录</h2>
 
 
 <input
 id="username"
-placeholder="请输入账号">
+placeholder="账号">
 
 
 <input
 id="password"
 type="password"
-placeholder="请输入密码">
+placeholder="密码">
 
 
 <button id="loginBtn">
@@ -69,6 +70,7 @@ placeholder="请输入密码">
 
 
 
+
 <!-- 主页面 -->
 
 <section id="mainPage" style="display:none;">
@@ -77,55 +79,9 @@ placeholder="请输入密码">
 
 
 
-
-<!-- 顶部操作 -->
-
-<div class="card">
-
-
-<button id="logoutBtn">
-
-退出登录
-
-</button>
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- 记录日期 -->
-
-<div class="card">
-
-
-<h2>📅 记录日期</h2>
-
-
-<input
-type="date"
-id="recordDate">
-
-
-</div>
-
-
-
-
-
-
-
-
-
 <!-- 值班 -->
 
 <div class="card">
-
 
 <h2>👥 今日值班</h2>
 
@@ -161,6 +117,7 @@ id="recordDate">
 </button>
 
 
+
 </div>
 
 
@@ -171,7 +128,7 @@ id="recordDate">
 
 
 
-<!-- 自动统计 -->
+<!-- 今日统计 -->
 
 <div class="card">
 
@@ -179,15 +136,14 @@ id="recordDate">
 <h2>📊 今日统计</h2>
 
 
-
 <div class="result">
 
 
 <p>
 
-今日接待人数：
+👥 接待人数：
 
-<span id="visitorCount">
+<span id="todayPeople">
 
 0
 
@@ -199,10 +155,9 @@ id="recordDate">
 
 
 
-
 <p>
 
-总收入：
+💰 总收入：
 
 <span id="income">
 
@@ -219,7 +174,7 @@ id="recordDate">
 
 <p>
 
-总提成：
+💵 总提成：
 
 <span id="commission">
 
@@ -236,13 +191,57 @@ id="recordDate">
 </div>
 
 
+</div>
 
-<div id="summary"></div>
 
+
+
+
+
+
+
+
+<!-- 保存 -->
+
+<div class="card">
+
+
+<button id="saveBtn">
+
+💾 保存今日记录
+
+</button>
+
+
+
+<button id="newBtn">
+
+🆕 新建今日统计
+
+</button>
 
 
 </div>
 
+
+
+
+
+
+
+
+<!-- 自动分配 -->
+
+<div class="card">
+
+
+<h2>👥 提成分配</h2>
+
+
+<div id="summary"></div>
+
+
+</div>
 
 
 
@@ -276,30 +275,17 @@ id="recordDate">
 
 
 
-<!-- 保存 -->
+<!-- 历史 -->
 
 <div class="card">
 
 
-<button id="saveBtn">
-
-💾 保存今日记录
-
-</button>
-
+<h2>📚 历史记录</h2>
 
 
 <button id="historyBtn">
 
-📚 历史记录
-
-</button>
-
-
-
-<button id="newBtn">
-
-🆕 新建今日统计
+查看历史记录
 
 </button>
 
@@ -316,7 +302,33 @@ id="recordDate">
 
 
 
-</section>
+
+
+<!-- 周/月统计 -->
+
+<div class="card">
+
+
+<h2>📈 数据分析</h2>
+
+
+
+<div id="statistics">
+
+
+加载中……
+
+</div>
+
+
+
+
+<canvas id="weekChart"></canvas>
+
+
+
+<canvas id="monthChart"></canvas>
+
 
 
 </div>
@@ -328,16 +340,64 @@ id="recordDate">
 
 
 
+
+<!-- 小牙彩蛋 -->
+
+<div id="giftBox">
+
+
+<div class="tooth">
+
+🦷
+
+</div>
+
+
+<p id="giftText"></p>
+
+
+</div>
+
+
+
+
+
+
+
+</section>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Supabase -->
+
 <script src="config.js"></script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
+<!-- 图表 -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 <script src="supabase.js"></script>
 
 
 <script src="app.js"></script>
+
 
 
 
