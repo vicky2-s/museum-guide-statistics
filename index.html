@@ -30,23 +30,25 @@
 
 
 
+
+
 <!-- 登录 -->
 
 <section id="loginCard" class="card">
 
 
-<h2>登录</h2>
+<h2>管理员入口</h2>
 
 
 <input
 id="username"
-placeholder="账号">
+placeholder="请输入账号">
 
 
 <input
 id="password"
 type="password"
-placeholder="密码">
+placeholder="请输入密码">
 
 
 <button id="loginBtn">
@@ -65,9 +67,56 @@ placeholder="密码">
 
 
 
+
+
 <!-- 主页面 -->
 
 <section id="mainPage" style="display:none;">
+
+
+
+
+
+
+<!-- 顶部操作 -->
+
+<div class="card">
+
+
+<button id="logoutBtn">
+
+退出登录
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- 记录日期 -->
+
+<div class="card">
+
+
+<h2>📅 记录日期</h2>
+
+
+<input
+type="date"
+id="recordDate">
+
+
+</div>
+
+
+
+
 
 
 
@@ -92,6 +141,7 @@ placeholder="密码">
 
 
 
+
 <!-- 讲解记录 -->
 
 <div class="card">
@@ -103,6 +153,7 @@ placeholder="密码">
 <div id="sessionList"></div>
 
 
+
 <button id="addSession">
 
 ➕ 添加讲解场次
@@ -111,6 +162,8 @@ placeholder="密码">
 
 
 </div>
+
+
 
 
 
@@ -146,6 +199,7 @@ placeholder="密码">
 
 
 
+
 <p>
 
 总收入：
@@ -159,6 +213,7 @@ placeholder="密码">
 元
 
 </p>
+
 
 
 
@@ -177,6 +232,7 @@ placeholder="密码">
 </p>
 
 
+
 </div>
 
 
@@ -186,6 +242,8 @@ placeholder="密码">
 
 
 </div>
+
+
 
 
 
@@ -216,8 +274,9 @@ placeholder="密码">
 
 
 
-<!-- 保存和功能按钮 -->
 
+
+<!-- 保存 -->
 
 <div class="card">
 
@@ -255,10 +314,13 @@ placeholder="密码">
 
 
 
+
+
 </section>
 
 
 </div>
+
 
 
 
