@@ -18,22 +18,6 @@
 
 
 <div id="app">
-<!-- 李林亚小牙彩蛋 -->
-
-<div id="giftBox">
-
-
-    <div id="littleTooth">
-        🦷
-    </div>
-
-
-    <div id="giftText">
-        林亚你今天真棒！
-    </div>
-
-
-</div>
 
 
 <header>
@@ -75,14 +59,9 @@ placeholder="密码">
 
 
 <p id="loginMessage"></p>
-<button id="logoutBtn">
 
-退出登录
-
-</button>
 
 </section>
-
 
 
 
@@ -98,9 +77,12 @@ placeholder="密码">
 
 
 
+
+
 <!-- 值班 -->
 
 <div class="card">
+
 
 <h2>👥 今日值班</h2>
 
@@ -116,6 +98,33 @@ placeholder="密码">
 
 
 
+<!-- 日期选择 -->
+
+<div class="card">
+
+
+<h2>📅 记录日期</h2>
+
+
+<input
+type="date"
+id="recordDate">
+
+
+<p style="font-size:14px;color:#777;">
+
+可用于补录之前日期的工作记录
+
+</p>
+
+
+</div>
+
+
+
+
+
+
 
 <!-- 讲解记录 -->
 
@@ -123,6 +132,7 @@ placeholder="密码">
 
 
 <h2>🎤 今日讲解记录</h2>
+
 
 
 <div id="sessionList"></div>
@@ -146,13 +156,12 @@ placeholder="密码">
 
 
 
-
-<!-- 今日统计 -->
+<!-- 自动计算 -->
 
 <div class="card">
 
 
-<h2>📊 今日统计</h2>
+<h2>🎫 今日统计</h2>
 
 
 <div class="result">
@@ -176,7 +185,7 @@ placeholder="密码">
 
 <p>
 
-💰 总收入：
+💰 收入：
 
 <span id="income">
 
@@ -190,10 +199,9 @@ placeholder="密码">
 
 
 
-
 <p>
 
-💵 总提成：
+💵 提成：
 
 <span id="commission">
 
@@ -204,7 +212,6 @@ placeholder="密码">
 元
 
 </p>
-
 
 
 </div>
@@ -232,14 +239,6 @@ placeholder="密码">
 </button>
 
 
-
-<button id="newBtn">
-
-🆕 新建今日统计
-
-</button>
-
-
 </div>
 
 
@@ -249,15 +248,22 @@ placeholder="密码">
 
 
 
-<!-- 自动分配 -->
+<!-- 自动统计 -->
 
 <div class="card">
 
 
-<h2>👥 提成分配</h2>
+<h2>
+📊 数据统计
+</h2>
 
 
 <div id="summary"></div>
+
+
+
+<div id="statistics"></div>
+
 
 
 </div>
@@ -274,7 +280,11 @@ placeholder="密码">
 <div class="card">
 
 
-<h2>✅ 数据核对</h2>
+<h2>
+
+✅ 数据核对
+
+</h2>
 
 
 <p id="checkResult">
@@ -293,18 +303,28 @@ placeholder="密码">
 
 
 
-
 <!-- 历史 -->
 
 <div class="card">
 
 
-<h2>📚 历史记录</h2>
-
-
 <button id="historyBtn">
 
-查看历史记录
+📚 历史记录
+
+</button>
+
+
+<button id="newBtn">
+
+🆕 新建今日统计
+
+</button>
+
+
+<button id="logoutBtn">
+
+退出登录
 
 </button>
 
@@ -322,60 +342,37 @@ placeholder="密码">
 
 
 
-
-<!-- 周/月统计 -->
-
-<div class="card">
+<!-- 李林亚彩蛋 -->
 
 
-<h2>📈 数据分析</h2>
+<div id="giftBox"
+style="
+display:none;
+position:fixed;
+top:30%;
+left:50%;
+transform:translateX(-50%);
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+text-align:center;
+z-index:999;
+">
 
 
-
-<div id="statistics">
-
-
-加载中……
-
-</div>
-
-
-
-
-<canvas id="weekChart"></canvas>
-
-
-
-<canvas id="monthChart"></canvas>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<!-- 小牙彩蛋 -->
-
-<div id="giftBox">
-
-
-<div class="tooth">
+<div style="font-size:70px;">
 
 🦷
 
 </div>
 
 
-<p id="giftText"></p>
+<h3 id="giftText"></h3>
 
 
 </div>
+
 
 
 
@@ -387,19 +384,11 @@ placeholder="密码">
 
 
 
-
-
 </div>
 
 
 
 
-
-
-
-
-
-<!-- Supabase -->
 
 <script src="config.js"></script>
 
@@ -407,16 +396,13 @@ placeholder="密码">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-<!-- 图表 -->
+<script src="supabase.js"></script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-<script src="supabase.js"></script>
-
-
 <script src="app.js"></script>
-
 
 
 
