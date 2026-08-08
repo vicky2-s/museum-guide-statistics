@@ -21,7 +21,7 @@ window.onload = async function(){
 
 
 
-// 显示日期
+// 日期
 
 function showToday(){
 
@@ -39,7 +39,6 @@ function showToday(){
     document.getElementById("today").innerText=text;
 
 }
-
 
 
 
@@ -70,20 +69,15 @@ async function loadGuides(){
 
 
 
-
-
-
-
 // 登录
 
 async function login(){
 
-
-    const username=
+    const username =
     document.getElementById("username").value;
 
 
-    const password=
+    const password =
     document.getElementById("password").value;
 
 
@@ -99,10 +93,9 @@ async function login(){
 
     if(error || !data){
 
-
-        document.getElementById("loginMessage")
+        document
+        .getElementById("loginMessage")
         .innerText="账号或密码错误";
-
 
         return;
 
@@ -113,35 +106,31 @@ async function login(){
     currentUser=data;
 
 
-
-    document.getElementById("loginCard")
+    document
+    .getElementById("loginCard")
     .style.display="none";
 
 
-    document.getElementById("mainPage")
+    document
+    .getElementById("mainPage")
     .style.display="block";
 
+
+    checkData();
 
 }
 
 
 
-
-
-
-
-
-// 显示值班人员
+// 值班人员
 
 function renderGuideCheckbox(){
 
-
-    const box=
+    const box =
     document.getElementById("guideCheckboxes");
 
 
     box.innerHTML="";
-
 
 
     guides.forEach(g=>{
@@ -185,9 +174,6 @@ function renderGuideCheckbox(){
 
 
 
-
-
-
 // 绑定事件
 
 function bindEvents(){
@@ -196,18 +182,6 @@ function bindEvents(){
     document
     .getElementById("loginBtn")
     .onclick=login;
-
-
-
-    document
-.getElementById("ticketCount")
-.oninput=function(){
-
-    calculate();
-
-    checkData();
-
-};
 
 
 
@@ -238,27 +212,33 @@ function bindEvents(){
 
 
 
-
-
-
-
-
-// 计算票务收入
+// 自动计算
 
 function calculate(){
 
 
-    const count =
-    Number(
-        document.getElementById("ticketCount").value
-    )||0;
+    let count = 0;
+
+
+    document
+    .querySelectorAll(".sessionPeople")
+    .forEach(input=>{
+
+
+        count +=
+        Number(input.value)||0;
+
+
+    });
 
 
 
-    const income=count*45;
+    const income =
+    count * 45;
 
 
-    const commission=count*1.8;
+    const commission =
+    count * 1.8;
 
 
 
@@ -279,12 +259,10 @@ function calculate(){
     calculateShare();
 
 
+    checkData();
+
 
 }
-
-
-
-
 
 
 
@@ -292,9 +270,7 @@ function calculate(){
 
 function calculateShare(){
 
-
     let checked=[];
-
 
 
     document
@@ -313,7 +289,7 @@ function calculateShare(){
 
 
 
-    let total=
+    let total =
     Number(
     document.getElementById("commission").innerText
     );
@@ -328,7 +304,6 @@ function calculateShare(){
 
 
         let money=0;
-
 
 
         if(
@@ -349,9 +324,7 @@ function calculateShare(){
         <p>
 
         ${g.name}：
-
         ${money.toFixed(2)}
-
         元
 
         </p>
@@ -363,7 +336,8 @@ function calculateShare(){
 
 
 
-    document.getElementById("summary")
+    document
+    .getElementById("summary")
     .innerHTML=result;
 
 
@@ -372,11 +346,7 @@ function calculateShare(){
 
 
 
-
-
-
-
-// 添加讲解场次
+// 添加讲解记录
 
 function addSession(){
 
@@ -393,17 +363,13 @@ function addSession(){
 
     <select class="sessionGuide">
 
-
     ${guides.map(g=>`
 
     <option value="${g.name}">
-
     ${g.name}
-
     </option>
 
     `).join("")}
-
 
     </select>
 
@@ -414,20 +380,23 @@ function addSession(){
     placeholder="时间">
 
 
+
     <input
-class="sessionPeople"
-type="number"
-placeholder="人数"
-oninput="checkData()">
+    class="sessionPeople"
+    type="number"
+    placeholder="游客人数"
+    oninput="calculate()">
 
 
 
-    <button onclick="this.parentElement.remove()">
+    <button onclick="
+    this.parentElement.remove();
+    calculate();
+    ">
 
     删除
 
     </button>
-
 
 
     `;
@@ -435,19 +404,14 @@ oninput="checkData()">
 
 
     document
-.getElementById("sessionList")
-.appendChild(div);
+    .getElementById("sessionList")
+    .appendChild(div);
 
-checkData();
 
+    calculate();
 
 
 }
-
-
-
-
-
 
 
 
@@ -456,9 +420,7 @@ checkData();
 
 function getSessions(){
 
-
     let arr=[];
-
 
 
     document
@@ -467,6 +429,7 @@ function getSessions(){
 
 
         arr.push({
+
 
             guide:
             row.querySelector(".sessionGuide").value,
@@ -481,11 +444,11 @@ function getSessions(){
             row.querySelector(".sessionPeople").value
             )||0
 
+
         });
 
 
     });
-
 
 
     return arr;
@@ -496,19 +459,39 @@ function getSessions(){
 
 
 
+// 总人数
+
+function getTotalPeople(){
+
+    let total=0;
+
+
+    document
+    .querySelectorAll(".sessionPeople")
+    .forEach(input=>{
+
+
+        total +=
+        Number(input.value)||0;
+
+
+    });
+
+
+    return total;
+
+}
 
 
 
 
 
-// 保存记录
+// 保存
 
 async function saveRecord(){
 
 
-
     let duty=[];
-
 
 
     document
@@ -528,9 +511,7 @@ async function saveRecord(){
 
 
 
-
     let data={
-
 
 
         date:
@@ -541,9 +522,7 @@ async function saveRecord(){
 
 
         ticket_count:
-        Number(
-        document.getElementById("ticketCount").value
-        )||0,
+        getTotalPeople(),
 
 
 
@@ -577,8 +556,6 @@ async function saveRecord(){
 
 
 
-
-
     let result;
 
 
@@ -607,25 +584,15 @@ async function saveRecord(){
 
 
 
-
-
     if(result.error){
-
 
         alert(
         "保存失败："+result.error.message
         );
 
-
-        console.log(result.error);
-
-
         return;
 
-
     }
-
-
 
 
 
@@ -638,17 +605,60 @@ async function saveRecord(){
     );
 
 
-
     currentEditingId=null;
-
 
 
 }
 
 
 
+// 数据核对
+
+function checkData(){
 
 
+    const ticketCount =
+    getTotalPeople();
+
+
+
+    let sessionPeople =
+    getTotalPeople();
+
+
+
+    let result=`
+
+
+    ✅ 数据核对通过
+
+
+    <br>
+
+
+    今日接待人数：
+
+    ${ticketCount} 人
+
+
+    <br>
+
+
+    讲解统计人数：
+
+    ${sessionPeople} 人
+
+
+    `;
+
+
+
+    document
+    .getElementById("checkResult")
+    .innerHTML=result;
+
+
+}
 
 
 
@@ -657,13 +667,10 @@ async function saveRecord(){
 
 async function loadHistory(){
 
-
-
     const {data,error}=await db
     .from("daily_records")
     .select("*")
     .order("date",{ascending:false});
-
 
 
 
@@ -677,10 +684,7 @@ async function loadHistory(){
 
 
 
-
-
     let html="";
-
 
 
 
@@ -688,7 +692,6 @@ async function loadHistory(){
 
 
         html+=`
-
 
         <div class="history-item">
 
@@ -705,32 +708,23 @@ async function loadHistory(){
         </p>
 
 
-
         <button onclick='loadRecord(${JSON.stringify(r)})'>
-
         查看
-
         </button>
 
 
-
         <button onclick="deleteRecord(${r.id})">
-
         删除
-
         </button>
 
 
         </div>
 
 
-
         `;
 
 
-
     });
-
 
 
 
@@ -739,55 +733,20 @@ async function loadHistory(){
     .innerHTML=html;
 
 
-
 }
 
 
 
-
-
-
-
-
-// 加载历史数据
+// 加载历史
 
 function loadRecord(r){
 
-
     currentEditingId=r.id;
-
-
-
-    document
-    .getElementById("ticketCount")
-    .value=r.ticket_count;
-
-
-
-    calculate();
-
-
-
-
-    document
-    .querySelectorAll(".dutyGuide")
-    .forEach(c=>{
-
-
-        c.checked=
-        r.duty_guides.includes(c.value);
-
-
-    });
-
-
 
 
     document
     .getElementById("sessionList")
     .innerHTML="";
-
-
 
 
     r.sessions.forEach(s=>{
@@ -796,34 +755,30 @@ function loadRecord(r){
         addSession();
 
 
-
-        let rows=
+        let rows =
         document.querySelectorAll(".session");
 
 
-
-        let row=
+        let row =
         rows[rows.length-1];
-
 
 
         row.querySelector(".sessionGuide")
         .value=s.guide;
 
 
-
         row.querySelector(".sessionTime")
         .value=s.time;
-
 
 
         row.querySelector(".sessionPeople")
         .value=s.people;
 
 
-
     });
 
+
+    calculate();
 
 
     alert("历史记录已加载");
@@ -833,16 +788,9 @@ function loadRecord(r){
 
 
 
-
-
-
-
-
-
-// 删除
+// 删除历史
 
 async function deleteRecord(id){
-
 
 
     if(!confirm("确定删除吗？")){
@@ -852,8 +800,6 @@ async function deleteRecord(id){
     }
 
 
-
-
     const {error}=await db
     .from("daily_records")
     .delete()
@@ -861,18 +807,11 @@ async function deleteRecord(id){
 
 
 
-
     if(error){
-
 
         alert("删除失败");
 
-
-        console.log(error);
-
-
         return;
-
 
     }
 
@@ -884,18 +823,12 @@ async function deleteRecord(id){
     loadHistory();
 
 
-
 }
 
 
 
 
-
-
-
-
-
-// 新建今日统计
+// 新建今日
 
 function newToday(){
 
@@ -903,17 +836,9 @@ function newToday(){
     currentEditingId=null;
 
 
-
-    document
-    .getElementById("ticketCount")
-    .value="";
-
-
-
     document
     .getElementById("sessionList")
     .innerHTML="";
-
 
 
     document
@@ -931,86 +856,7 @@ function newToday(){
     calculate();
 
 
-
     alert("已新建今日统计");
-
-
-}
-function checkData(){
-
-    const ticketCount =
-    Number(
-        document.getElementById("ticketCount").value
-    ) || 0;
-
-
-    let sessionPeople = 0;
-
-
-    document
-    .querySelectorAll(".sessionPeople")
-    .forEach(input=>{
-
-        sessionPeople +=
-        Number(input.value) || 0;
-
-    });
-
-
-
-    let result="";
-
-
-    if(ticketCount === sessionPeople){
-
-        result = `
-
-        ✅ 数据核对通过
-
-        <br>
-
-        售票人数：
-        ${ticketCount} 人
-
-        <br>
-
-        讲解人数：
-        ${sessionPeople} 人
-
-        `;
-
-
-    }else{
-
-
-        result = `
-
-        ⚠️ 数据存在差异
-
-        <br>
-
-        售票人数：
-        ${ticketCount} 人
-
-        <br>
-
-        讲解人数：
-        ${sessionPeople} 人
-
-        <br>
-
-        差异：
-        ${Math.abs(ticketCount-sessionPeople)} 人
-
-        `;
-
-
-    }
-
-
-    document
-    .getElementById("checkResult")
-    .innerHTML=result;
 
 
 }
