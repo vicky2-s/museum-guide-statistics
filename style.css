@@ -380,3 +380,135 @@ button:active {
 
 
 }
+/* =========================
+   登录页面优化
+========================= */
+
+
+#loginCard {
+
+
+    margin-top:60px;
+
+    padding:30px 25px;
+
+    text-align:center;
+
+    border-radius:22px;
+
+}
+
+
+
+/* 登录标题 */
+
+#loginCard h2 {
+
+
+    font-size:28px;
+
+    color:#1f3a5f;
+
+    margin-bottom:25px;
+
+}
+
+
+
+#loginCard h2::before {
+
+
+    content:"🏛";
+
+    display:block;
+
+    font-size:48px;
+
+    margin-bottom:12px;
+
+}
+
+
+
+/* 输入框 */
+
+#loginCard input {
+
+
+    height:52px;
+
+    margin-bottom:16px;
+
+    background:#f8fafc;
+
+    border-radius:14px;
+
+    font-size:17px;
+
+}
+
+
+
+/* 登录按钮 */
+
+
+#loginBtn {
+
+
+    margin-top:10px;
+
+    height:54px;
+
+    border-radius:14px;
+
+    font-size:18px;
+
+    letter-spacing:2px;
+
+    background:#1f4e79;
+
+}
+
+
+
+#loginBtn:active {
+
+
+    transform:scale(0.97);
+
+}
+
+
+
+/* 登录提示 */
+
+
+#loginMessage {
+
+
+    margin-top:15px;
+
+    color:#dc2626;
+
+    font-size:15px;
+
+}
+
+
+
+/* 登录背景 */
+
+#loginCard::after {
+
+
+    content:"讲解服务每日统计系统";
+
+    display:block;
+
+    margin-top:20px;
+
+    color:#888;
+
+    font-size:14px;
+
+}
