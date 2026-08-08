@@ -22,9 +22,13 @@
 
 <header>
 
-<h1>🏛 博物馆讲解服务每日统计</h1>
+<h1>
+🏛 博物馆讲解服务每日统计
+</h1>
+
 
 <p id="today"></p>
+
 
 </header>
 
@@ -34,10 +38,12 @@
 
 <!-- 登录 -->
 
-<section id="loginCard" class="card">
+<section id="loginCard" class="card login-card">
 
 
-<h2>登录</h2>
+<h2>
+管理员入口
+</h2>
 
 
 <input
@@ -52,9 +58,7 @@ placeholder="密码">
 
 
 <button id="loginBtn">
-
 登录
-
 </button>
 
 
@@ -62,6 +66,7 @@ placeholder="密码">
 
 
 </section>
+
 
 
 
@@ -79,31 +84,14 @@ placeholder="密码">
 
 
 
-<!-- 值班 -->
+<!-- 日期 -->
 
 <div class="card">
 
 
-<h2>👥 今日值班</h2>
-
-
-<div id="guideCheckboxes"></div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- 日期选择 -->
-
-<div class="card">
-
-
-<h2>📅 记录日期</h2>
+<h2>
+📅 记录日期
+</h2>
 
 
 <input
@@ -111,10 +99,8 @@ type="date"
 id="recordDate">
 
 
-<p style="font-size:14px;color:#777;">
-
-可用于补录之前日期的工作记录
-
+<p>
+可补录之前日期的工作记录
 </p>
 
 
@@ -126,16 +112,47 @@ id="recordDate">
 
 
 
-<!-- 讲解记录 -->
+
+
+<!-- 值班 -->
 
 <div class="card">
 
 
-<h2>🎤 今日讲解记录</h2>
+<h2>
+👥 今日值班
+</h2>
+
+
+<div id="guideCheckboxes">
+
+</div>
+
+
+</div>
 
 
 
-<div id="sessionList"></div>
+
+
+
+
+
+
+<!-- 今日讲解 -->
+
+<div class="card">
+
+
+<h2>
+🎤 今日讲解记录
+</h2>
+
+
+
+<div id="sessionList">
+
+</div>
 
 
 
@@ -156,25 +173,26 @@ id="recordDate">
 
 
 
-<!-- 自动计算 -->
+
+<!-- 今日统计 -->
 
 <div class="card">
 
 
-<h2>🎫 今日统计</h2>
+<h2>
+📊 今日统计
+</h2>
+
 
 
 <div class="result">
 
 
 <p>
-
 👥 接待人数：
 
 <span id="todayPeople">
-
 0
-
 </span>
 
 人
@@ -184,13 +202,10 @@ id="recordDate">
 
 
 <p>
-
-💰 收入：
+💰 总收入：
 
 <span id="income">
-
 0.00
-
 </span>
 
 元
@@ -200,13 +215,10 @@ id="recordDate">
 
 
 <p>
-
-💵 提成：
+💵 总提成：
 
 <span id="commission">
-
 0.00
-
 </span>
 
 元
@@ -214,7 +226,60 @@ id="recordDate">
 </p>
 
 
+
 </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- 提成分配 -->
+
+<div class="card">
+
+
+<h2>
+💰 提成分配
+</h2>
+
+
+<div id="summary">
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- 数据核对 -->
+
+<div class="card">
+
+
+<h2>
+✅ 数据核对
+</h2>
+
+
+<p id="checkResult">
+
+等待录入……
+
+</p>
 
 
 </div>
@@ -239,87 +304,13 @@ id="recordDate">
 </button>
 
 
-</div>
-
-
-
-
-
-
-
-
-<!-- 自动统计 -->
-
-<div class="card">
-
-
-<h2>
-📊 数据统计
-</h2>
-
-
-<div id="summary"></div>
-
-
-
-<div id="statistics"></div>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- 数据核对 -->
-
-<div class="card">
-
-
-<h2>
-
-✅ 数据核对
-
-</h2>
-
-
-<p id="checkResult">
-
-等待录入……
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- 历史 -->
-
-<div class="card">
-
-
-<button id="historyBtn">
-
-📚 历史记录
-
-</button>
-
 
 <button id="newBtn">
 
-🆕 新建今日统计
+🆕 新建记录
 
 </button>
+
 
 
 <button id="logoutBtn">
@@ -330,10 +321,88 @@ id="recordDate">
 
 
 
-<div id="historyPanel"></div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- 历史记录 -->
+
+<div class="card">
+
+
+<h2>
+📚 历史记录
+</h2>
+
+
+<button id="historyBtn">
+
+查看历史记录
+
+</button>
+
+
+<div id="historyPanel">
+
+</div>
 
 
 </div>
+
+
+
+
+
+
+
+
+
+<!-- 周月统计 -->
+
+<div class="card">
+
+
+<h2>
+📈 周/月统计
+</h2>
+
+
+<div id="statistics">
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<canvas id="weekChart"></canvas>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+
+<canvas id="monthChart"></canvas>
+
+
+</div>
+
 
 
 
@@ -345,30 +414,22 @@ id="recordDate">
 <!-- 李林亚彩蛋 -->
 
 
-<div id="giftBox"
-style="
-display:none;
-position:fixed;
-top:30%;
-left:50%;
-transform:translateX(-50%);
-background:white;
-padding:30px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,.2);
-text-align:center;
-z-index:999;
-">
+<div
+id="giftBox"
+style="display:none;"
+class="gift-box">
 
 
-<div style="font-size:70px;">
+<div class="tooth">
 
 🦷
 
 </div>
 
 
-<h3 id="giftText"></h3>
+<p id="giftText">
+
+</p>
 
 
 </div>
@@ -384,23 +445,40 @@ z-index:999;
 
 
 
+
+
 </div>
 
 
 
 
 
+
+
+
+<!-- 配置 -->
+
 <script src="config.js"></script>
 
 
+
+<!-- Supabase -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 
 <script src="supabase.js"></script>
 
 
+
+<!-- 图表 -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
+
+<!-- 主程序 -->
 
 <script src="app.js"></script>
 
