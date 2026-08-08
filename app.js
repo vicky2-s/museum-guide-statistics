@@ -11,12 +11,17 @@ let monthChart = null;
 
 
 
+// ======================
 // 页面加载
+// ======================
 
 window.onload = async function(){
 
 
     showToday();
+
+
+    setDefaultDate();
 
 
     await loadGuides();
@@ -35,20 +40,79 @@ window.onload = async function(){
 
 
 
+
+// ======================
+// 日期
+// ======================
+
+
+function showToday(){
+
+
+    const today=new Date();
+
+
+    document
+    .getElementById("today")
+    .innerText=
+
+    today.getFullYear()
+    +"年"
+    +(today.getMonth()+1)
+    +"月"
+    +today.getDate()
+    +"日";
+
+
+}
+
+
+
+
+// 默认今天日期
+
+function setDefaultDate(){
+
+
+    let today =
+    new Date()
+    .toISOString()
+    .slice(0,10);
+
+
+
+    document
+    .getElementById("recordDate")
+    .value=today;
+
+
+}
+
+
+
+
+
+
+
+// ======================
 // 自动登录
+// ======================
+
 
 function checkAutoLogin(){
 
 
     let saved =
-    localStorage.getItem("museumUser");
+    localStorage.getItem(
+        "museumUser"
+    );
 
 
 
     if(saved){
 
 
-        currentUser =
+        currentUser=
         JSON.parse(saved);
 
 
@@ -71,36 +135,20 @@ function checkAutoLogin(){
     }
 
 
-}
-
-
-
-// 日期
-
-function showToday(){
-
-
-    const today=new Date();
-
-
-    document
-    .getElementById("today")
-    .innerText =
-
-    today.getFullYear()
-    +"年"
-    +(today.getMonth()+1)
-    +"月"
-    +today.getDate()
-    +"日";
-
 
 }
 
 
 
 
+
+
+
+
+// ======================
 // 获取讲解员
+// ======================
+
 
 async function loadGuides(){
 
@@ -127,6 +175,7 @@ async function loadGuides(){
     renderGuideCheckbox();
 
 
+
 }
 
 
@@ -134,7 +183,13 @@ async function loadGuides(){
 
 
 
+
+
+
+// ======================
 // 登录
+// ======================
+
 
 async function login(){
 
@@ -154,6 +209,7 @@ async function login(){
 
 
 
+
     const {data,error}=await db
     .from("guides")
     .select("*")
@@ -164,13 +220,13 @@ async function login(){
 
 
 
-
     if(error || !data){
 
 
         document
         .getElementById("loginMessage")
-        .innerText="账号或密码错误";
+        .innerText=
+        "账号或密码错误";
 
 
         return;
@@ -189,6 +245,7 @@ async function login(){
         "museumUser",
         JSON.stringify(data)
     );
+
 
 
 
@@ -215,15 +272,62 @@ async function login(){
 
 
 
+
+
+
+
+// ======================
+// 退出
+// ======================
+
+
+function logout(){
+
+
+    localStorage.removeItem(
+        "museumUser"
+    );
+
+
+    currentUser=null;
+
+
+
+    document
+    .getElementById("mainPage")
+    .style.display="none";
+
+
+
+    document
+    .getElementById("loginCard")
+    .style.display="block";
+
+
+}
+
+
+
+
+
+
+
+
+
+
+// ======================
 // 值班人员
+// ======================
+
 
 function renderGuideCheckbox(){
 
 
     const box =
     document
-    .getElementById("guideCheckboxes");
-
+    .getElementById(
+        "guideCheckboxes"
+    );
 
 
     box.innerHTML="";
@@ -233,7 +337,7 @@ function renderGuideCheckbox(){
     guides.forEach(g=>{
 
 
-        box.innerHTML += `
+        box.innerHTML+=`
 
 
         <label>
@@ -260,7 +364,9 @@ function renderGuideCheckbox(){
         `;
 
 
+
     });
+
 
 
 
@@ -270,7 +376,7 @@ function renderGuideCheckbox(){
     .forEach(item=>{
 
 
-        item.onchange =
+        item.onchange=
         calculateShare;
 
 
@@ -284,22 +390,15 @@ function renderGuideCheckbox(){
 
 
 
+
+
+
+// ======================
 // 事件绑定
+// ======================
+
 
 function bindEvents(){
-
-
-
-    const logoutBtn =
-    document.getElementById("logoutBtn");
-
-
-    if(logoutBtn){
-
-        logoutBtn.onclick=logout;
-
-    }
-
 
 
 
@@ -309,18 +408,15 @@ function bindEvents(){
 
 
 
-
-    document
-    .getElementById("addSession")
-    .onclick=addSession;
-
-
-
-
     document
     .getElementById("saveBtn")
     .onclick=saveRecord;
 
+
+
+    document
+    .getElementById("addSession")
+    .onclick=addSession;
 
 
 
@@ -330,10 +426,15 @@ function bindEvents(){
 
 
 
-
     document
     .getElementById("newBtn")
     .onclick=newToday;
+
+
+
+    document
+    .getElementById("logoutBtn")
+    .onclick=logout;
 
 
 
@@ -344,9 +445,17 @@ function bindEvents(){
 
 
 
+
+
+
+
+// ======================
 // 自动计算
+// ======================
+
 
 function calculate(){
+
 
 
     let count=0;
@@ -367,7 +476,6 @@ function calculate(){
 
 
 
-
     document
     .getElementById("todayPeople")
     .innerText=count;
@@ -376,10 +484,10 @@ function calculate(){
 
 
 
-    const income=count*45;
+    let income=count*45;
 
 
-    const commission=count*1.8;
+    let commission=count*1.8;
 
 
 
@@ -390,10 +498,12 @@ function calculate(){
 
 
 
+
     document
     .getElementById("commission")
     .innerText=
     commission.toFixed(2);
+
 
 
 
@@ -403,15 +513,22 @@ function calculate(){
     checkData();
 
 
+
 }
 
 
 
 
 
+
+
+// ======================
 // 提成分配
+// ======================
+
 
 function calculateShare(){
+
 
 
     let checked=[];
@@ -425,7 +542,9 @@ function calculateShare(){
 
         if(item.checked){
 
-            checked.push(item.value);
+            checked.push(
+                item.value
+            );
 
         }
 
@@ -435,13 +554,13 @@ function calculateShare(){
 
 
 
-
-    let total =
+    let total=
     Number(
-    document
-    .getElementById("commission")
-    .innerText
+        document
+        .getElementById("commission")
+        .innerText
     );
+
 
 
 
@@ -463,16 +582,18 @@ function calculateShare(){
         ){
 
 
-            money =
-            total/checked.length;
+            money=
+            total/
+            checked.length;
 
 
         }
 
 
 
-        html += `
 
+
+        html+=`
 
         <p>
 
@@ -484,8 +605,8 @@ function calculateShare(){
 
         </p>
 
-
         `;
+
 
 
     });
@@ -499,9 +620,9 @@ function calculateShare(){
 
 
 }
-// ===============================
+// ======================
 // 添加讲解场次
-// ===============================
+// ======================
 
 
 function addSession(){
@@ -524,11 +645,13 @@ function addSession(){
 
 ${guides.map(g=>`
 
+
 <option value="${g.name}">
 
 ${g.name}
 
 </option>
+
 
 `).join("")}
 
@@ -538,11 +661,12 @@ ${g.name}
 
 
 
+
 <input
 
 class="sessionTime"
 
-placeholder="时间">
+placeholder="讲解时间">
 
 
 
@@ -564,14 +688,19 @@ oninput="calculate()">
 
 <button
 
-onclick="this.parentElement.remove();calculate();">
+onclick="
+this.parentElement.remove();
+calculate();
+">
 
 删除
 
 </button>
 
 
+
 `;
+
 
 
 
@@ -589,7 +718,13 @@ onclick="this.parentElement.remove();calculate();">
 
 
 
-// 获取讲解记录
+
+
+
+// ======================
+// 获取讲解数据
+// ======================
+
 
 function getSessions(){
 
@@ -607,23 +742,28 @@ function getSessions(){
 
 
             guide:
-            row.querySelector(".sessionGuide").value,
-
+            row
+            .querySelector(".sessionGuide")
+            .value,
 
 
             time:
-            row.querySelector(".sessionTime").value,
-
+            row
+            .querySelector(".sessionTime")
+            .value,
 
 
             people:
             Number(
-            row.querySelector(".sessionPeople").value
+            row
+            .querySelector(".sessionPeople")
+            .value
             )||0
 
 
 
         });
+
 
 
     });
@@ -641,9 +781,12 @@ function getSessions(){
 
 
 
-// ===============================
+
+
+
+// ======================
 // 保存记录
-// ===============================
+// ======================
 
 
 async function saveRecord(){
@@ -672,14 +815,35 @@ async function saveRecord(){
 
 
 
+
+    let recordDate =
+    document
+    .getElementById("recordDate")
+    .value;
+
+
+
+    if(!recordDate){
+
+
+        alert("请选择记录日期");
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
     let data={
 
 
 
-        date:
-        new Date()
-        .toISOString()
-        .slice(0,10),
+        date:recordDate,
 
 
 
@@ -714,7 +878,8 @@ async function saveRecord(){
 
 
 
-        sessions:getSessions(),
+        sessions:
+        getSessions(),
 
 
 
@@ -722,7 +887,47 @@ async function saveRecord(){
         currentUser.name
 
 
+
     };
+
+
+
+
+
+
+
+
+
+    // 防止同一天重复保存
+
+    if(!currentEditingId){
+
+
+
+        const {data:exist}=await db
+        .from("daily_records")
+        .select("id")
+        .eq("date",recordDate)
+        .single();
+
+
+
+
+        if(exist){
+
+
+            alert(
+            "该日期已经存在记录，请使用历史记录修改"
+            );
+
+
+            return;
+
+
+        }
+
+
+    }
 
 
 
@@ -738,7 +943,7 @@ async function saveRecord(){
 
 
 
-        result =
+        result=
         await db
         .from("daily_records")
         .update(data)
@@ -746,11 +951,13 @@ async function saveRecord(){
 
 
 
-    }else{
+    }
+
+    else{
 
 
 
-        result =
+        result=
         await db
         .from("daily_records")
         .insert(data);
@@ -764,7 +971,10 @@ async function saveRecord(){
 
 
 
+
+
     if(result.error){
+
 
 
         alert(
@@ -785,7 +995,9 @@ async function saveRecord(){
 
 
 
+
     alert("保存成功！");
+
 
 
 
@@ -798,14 +1010,11 @@ async function saveRecord(){
 
 
 
+    if(currentUser.name==="李林亚"){
 
-    // 李林亚彩蛋
-
-    if(
-        currentUser.name==="李林亚"
-    ){
 
         showLinyaGift();
+
 
     }
 
@@ -819,9 +1028,12 @@ async function saveRecord(){
 
 
 
-// ===============================
+
+
+
+// ======================
 // 历史记录
-// ===============================
+// ======================
 
 
 async function loadHistory(){
@@ -831,8 +1043,12 @@ async function loadHistory(){
     const {data,error}=await db
     .from("daily_records")
     .select("*")
-    .order("date",{ascending:false});
-
+    .order(
+        "date",
+        {
+        ascending:false
+        }
+    );
 
 
 
@@ -853,85 +1069,91 @@ async function loadHistory(){
 
 
 
+
     let html="";
+
 
 
 
     data.forEach(r=>{
 
 
-
-        html +=`
-
-
-
-        <div class="history-item">
+        html+=`
 
 
 
-        <p>
-        📅 日期：
-        ${r.date}
-        </p>
+<div class="history-item">
 
 
 
+<p>
 
-        <p>
-        👥 接待人数：
-        ${r.ticket_count}
-        人
-        </p>
+📅 日期：
+
+${r.date}
+
+</p>
 
 
 
-        <p>
-        💰 收入：
-        ${r.income}
-        元
-        </p>
+<p>
+
+👥 接待人数：
+
+${r.ticket_count}
+
+人
+
+</p>
 
 
 
 
+<p>
 
-        <button
+💰 收入：
 
-        onclick='loadRecord(${JSON.stringify(r)})'>
+${r.income}
 
+元
 
-        查看修改
-
-
-        </button>
+</p>
 
 
 
 
 
+<button
 
-        <button
+onclick='loadRecord(${JSON.stringify(r)})'>
 
-        onclick="deleteRecord(${r.id})">
+查看修改
 
-
-        删除
-
-
-        </button>
+</button>
 
 
 
 
-        </div>
+<button
+
+onclick="deleteRecord(${r.id})">
+
+删除
+
+</button>
 
 
 
-        `;
+</div>
+
+
+
+`;
 
 
 
     });
+
 
 
 
@@ -952,9 +1174,11 @@ async function loadHistory(){
 
 
 
-// ===============================
-// 加载历史数据
-// ===============================
+
+
+// ======================
+// 加载历史记录
+// ======================
 
 
 function loadRecord(r){
@@ -962,6 +1186,16 @@ function loadRecord(r){
 
 
     currentEditingId=r.id;
+
+
+
+
+
+    document
+    .getElementById("recordDate")
+    .value=r.date;
+
+
 
 
 
@@ -978,12 +1212,15 @@ function loadRecord(r){
     .forEach(c=>{
 
 
-        c.checked =
-        r.duty_guides.includes(c.value);
+        c.checked=
+        r.duty_guides
+        .includes(c.value);
 
 
 
     });
+
+
 
 
 
@@ -997,15 +1234,16 @@ function loadRecord(r){
 
 
 
-        let rows =
+        let rows=
         document
         .querySelectorAll(".session");
 
 
 
-        let row =
-        rows[rows.length-1];
-
+        let row=
+        rows[
+        rows.length-1
+        ];
 
 
 
@@ -1017,12 +1255,9 @@ function loadRecord(r){
 
 
 
-
         row
         .querySelector(".sessionTime")
         .value=s.time;
-
-
 
 
 
@@ -1034,6 +1269,7 @@ function loadRecord(r){
 
 
     });
+
 
 
 
@@ -1055,9 +1291,13 @@ function loadRecord(r){
 
 
 
-// ===============================
+
+
+
+
+// ======================
 // 删除记录
-// ===============================
+// ======================
 
 
 async function deleteRecord(id){
@@ -1065,7 +1305,9 @@ async function deleteRecord(id){
 
 
     if(
-    !confirm("确定删除这条记录吗？")
+    !confirm(
+    "确定删除这条记录吗？"
+    )
     ){
 
 
@@ -1073,6 +1315,7 @@ async function deleteRecord(id){
 
 
     }
+
 
 
 
@@ -1107,6 +1350,7 @@ async function deleteRecord(id){
 
 
 
+
     alert("删除成功");
 
 
@@ -1116,21 +1360,38 @@ async function deleteRecord(id){
 
 
 }
-// ===============================
+
+
+
+
+
+
+
+
+
+// ======================
 // 新建今日
-// ===============================
+// ======================
 
 
 function newToday(){
+
 
 
     currentEditingId=null;
 
 
 
+
+    setDefaultDate();
+
+
+
+
     document
     .getElementById("sessionList")
     .innerHTML="";
+
 
 
 
@@ -1146,11 +1407,10 @@ function newToday(){
 
 
 
+
+
     calculate();
 
-
-
-    alert("已新建今日统计");
 
 
 }
@@ -1161,9 +1421,11 @@ function newToday(){
 
 
 
-// ===============================
+
+
+// ======================
 // 数据核对
-// ===============================
+// ======================
 
 
 function checkData(){
@@ -1202,24 +1464,23 @@ function checkData(){
         "等待录入……";
 
 
-    }else{
+    }
+
+
+    else{
 
 
         result=`
 
-
         ✅ 数据正常
-
 
         <br>
 
-
-        今日讲解人数：
+        讲解人数：
 
         ${people}
 
         人
-
 
         `;
 
@@ -1230,32 +1491,17 @@ function checkData(){
 
 
 
-    const box =
-    document.getElementById("checkResult");
 
-
-
-    if(box){
-
-        box.innerHTML=result;
-
-    }
+    document
+    .getElementById("checkResult")
+    .innerHTML=result;
 
 
 
 }
-
-
-
-
-
-
-
-
-
-// ===============================
+// ======================
 // 周/月统计
-// ===============================
+// ======================
 
 
 async function loadStatistics(){
@@ -1275,9 +1521,10 @@ async function loadStatistics(){
 
     const month =
     String(
-    now.getMonth()+1
+        now.getMonth()+1
     )
     .padStart(2,"0");
+
 
 
 
@@ -1289,6 +1536,7 @@ async function loadStatistics(){
 
     const end =
     `${year}-${month}-31`;
+
 
 
 
@@ -1332,22 +1580,21 @@ async function loadStatistics(){
 
 
 
+
+
     data.forEach(r=>{
 
 
         monthPeople +=
-        Number(r.ticket_count)||0;
-
+        r.ticket_count;
 
 
         monthIncome +=
-        Number(r.income)||0;
-
+        r.income;
 
 
         monthCommission +=
-        Number(r.commission)||0;
-
+        r.commission;
 
 
     });
@@ -1359,29 +1606,39 @@ async function loadStatistics(){
 
 
 
+
     // ===== 本周 =====
 
 
-    const today =
+    let today =
     new Date();
 
 
 
-    const day =
+    let day =
     today.getDay();
 
 
 
-    const monday =
+    let monday =
     new Date(today);
 
 
 
     monday.setDate(
+
         today.getDate()
         -
-        (day===0?6:day-1)
+        (
+        day===0
+        ?
+        6
+        :
+        day-1
+        )
+
     );
+
 
 
 
@@ -1393,10 +1650,12 @@ async function loadStatistics(){
 
 
 
+
     let weekLabels=[];
 
 
     let weekValues=[];
+
 
 
 
@@ -1430,6 +1689,7 @@ async function loadStatistics(){
 
 
 
+
         let num=0;
 
 
@@ -1441,16 +1701,37 @@ async function loadStatistics(){
 
 
                 num =
-                Number(r.ticket_count)||0;
+                r.ticket_count;
+
+
+            }
+
+
+        });
+
+
+
+
+
+        weekValues.push(num);
+
+
+
+
+
+        data.forEach(r=>{
+
+
+            if(r.date===key){
 
 
                 weekPeople +=
-                Number(r.ticket_count)||0;
+                r.ticket_count;
 
 
 
                 weekIncome +=
-                Number(r.income)||0;
+                r.income;
 
 
 
@@ -1462,10 +1743,6 @@ async function loadStatistics(){
 
 
 
-        weekValues.push(num);
-
-
-
     }
 
 
@@ -1476,413 +1753,139 @@ async function loadStatistics(){
 
 
 
-    const statistics =
-    document.getElementById("statistics");
+    document
+    .getElementById("statistics")
+    .innerHTML=`
 
 
 
-    if(statistics){
+<h3>
+📅 本周统计
+</h3>
 
 
+<p>
 
-        statistics.innerHTML=`
+👥 接待人数：
 
+${weekPeople}
 
+人
 
-        <h3>
-        📅 本周统计
-        </h3>
+</p>
 
 
 
-        <p>
-        👥 接待人数：
-        ${weekPeople}
-        人
-        </p>
+<p>
 
+💰 收入：
 
+${weekIncome.toFixed(2)}
 
-        <p>
-        💰 收入：
-        ${weekIncome.toFixed(2)}
-        元
-        </p>
+元
 
+</p>
 
 
 
 
-        <h3>
-        📊 本月统计
-        </h3>
 
 
+<h3>
 
-        <p>
-        👥 接待人数：
-        ${monthPeople}
-        人
-        </p>
+📊 本月统计
 
+</h3>
 
 
-        <p>
-        💰 收入：
-        ${monthIncome.toFixed(2)}
-        元
-        </p>
 
 
+<p>
 
-        <p>
-        💵 提成：
-        ${monthCommission.toFixed(2)}
-        元
-        </p>
+👥 接待人数：
 
+${monthPeople}
 
-        `;
+人
 
+</p>
 
-    }
 
 
+<p>
 
+💰 收入：
 
+${monthIncome.toFixed(2)}
 
+元
 
+</p>
 
-    // =====================
-    // 周柱状图
-    // =====================
 
 
-    if(
-        document.getElementById("weekChart")
-    ){
+<p>
 
+💵 提成：
 
+${monthCommission.toFixed(2)}
 
-        if(weekChart){
+元
 
-            weekChart.destroy();
+</p>
 
-        }
 
 
+`;
 
 
 
-        weekChart =
-        new Chart(
 
-        document
-        .getElementById("weekChart"),
 
 
-        {
 
 
-        type:"bar",
 
+// ======================
+// 月度折线图
+// ======================
 
 
-        data:{
+let monthLabels=[];
 
+let monthValues=[];
 
 
-        labels:weekLabels,
 
 
 
-        datasets:[{
+data.forEach(r=>{
 
 
-        label:"本周每日接待人数",
-
-
-        data:weekValues
-
-
-        }]
-
-
-        }
-
-
-
-        });
-
-
-
-    }
-
-
-
-
-
-
-
-    // =====================
-    // 月折线图
-    // =====================
-
-
-
-    if(
-        document.getElementById("monthChart")
-    ){
-
-
-
-        let labels=[];
-
-
-        let values=[];
-
-
-
-
-        data.forEach(r=>{
-
-
-            labels.push(
-                r.date
-            );
-
-
-            values.push(
-                r.ticket_count
-            );
-
-
-        });
-
-
-
-
-
-
-        if(monthChart){
-
-            monthChart.destroy();
-
-        }
-
-
-
-
-
-
-
-        monthChart =
-        new Chart(
-
-        document
-        .getElementById("monthChart"),
-
-
-
-        {
-
-
-
-        type:"line",
-
-
-
-
-        data:{
-
-
-
-        labels:labels,
-
-
-
-        datasets:[{
-
-
-        label:"每日接待人数",
-
-
-
-        data:values
-
-
-
-        }]
-
-
-
-        }
-
-
-
-        });
-
-
-
-    }
-
-
-
-
-
-}
-// ===============================
-// 李林亚小牙彩蛋
-// ===============================
-
-
-function showLinyaGift(){
-
-
-
-    const box =
-    document.getElementById("giftBox");
-
-
-
-    const text =
-    document.getElementById("giftText");
-
-
-
-    // 防止 index.html 没有彩蛋盒子时报错
-
-    if(!box || !text){
-
-        return;
-
-    }
-
-
-
-
-
-    const words=[
-
-
-
-        "🦷 林亚你今天真棒！",
-
-
-
-        "✨ 今日数据录入完成啦，辛苦啦！",
-
-
-
-        "🌟 小牙助手给认真工作的林亚点赞！",
-
-
-
-        "💪 林亚管理员上线，今天也完成任务啦！",
-
-
-
-        "🏛 博物馆的数据因为你变得井井有条！",
-
-
-
-        "🎉 小牙宣布：今日任务完美完成！"
-
-
-
-    ];
-
-
-
-
-
-
-
-    text.innerHTML =
-    words[
-        Math.floor(
-            Math.random()*words.length
-        )
-    ];
-
-
-
-
-
-
-    box.style.display="block";
-
-
-
-
-
-
-    setTimeout(()=>{
-
-
-        box.style.display="none";
-
-
-    },4000);
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-// ===============================
-// 登出
-// ===============================
-
-
-function logout(){
-
-
-
-    localStorage.removeItem(
-        "museumUser"
+    monthLabels.push(
+        r.date.substring(5)
     );
 
 
 
-    currentUser=null;
+    monthValues.push(
+        r.ticket_count
+    );
+
+
+
+});
 
 
 
 
-    document
-    .getElementById("mainPage")
-    .style.display="none";
 
 
 
-    document
-    .getElementById("loginCard")
-    .style.display="block";
+if(monthChart){
 
 
-
-    document
-    .getElementById("password")
-    .value="";
-
-
-
-    document
-    .getElementById("username")
-    .value="";
-
+    monthChart.destroy();
 
 
 }
@@ -1893,32 +1896,55 @@ function logout(){
 
 
 
+monthChart =
+new Chart(
 
 
-// ===============================
-// 页面安全检查
-// ===============================
-
-
-// 如果登录状态失效，自动退出
-
-window.addEventListener(
-"storage",
-function(e){
-
-
-    if(
-        e.key==="museumUser"
-        &&
-        e.newValue===null
-    ){
-
-
-        logout();
-
-
-    }
+document
+.getElementById(
+"monthChart"
+),
 
 
 
-});
+{
+
+
+type:"line",
+
+
+
+data:{
+
+
+
+labels:
+monthLabels,
+
+
+
+datasets:[{
+
+
+label:
+"每日接待人数",
+
+
+data:
+monthValues
+
+
+
+}]
+
+
+
+}
+
+
+
+}
+
+);
+
+
