@@ -1,805 +1,195 @@
 * {
-    box-sizing:border-box;
+  box-sizing: border-box;
 }
 
-
-
 body {
-
-    margin:0;
-
-    padding:0;
-
-    background:#f3f5f8;
-
-    font-family:
-
+  margin: 0;
+  padding: 0;
+  background: #f3f5f8;
+  font-family:
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
     "Microsoft YaHei",
     sans-serif;
-
-    color:#333;
-
+  color: #333;
 }
-
-
-
-
 
 #app {
-
-    width:100%;
-
-    max-width:600px;
-
-    margin:auto;
-
-    padding:15px;
-
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 15px;
 }
-
-
-
-
-
-
 
 /* ===== 顶部 ===== */
 
-
 header {
-
-    text-align:center;
-
-    padding:25px 10px 15px;
-
+  padding: 25px 10px 15px;
+  text-align: center;
 }
-
-
 
 header h1 {
-
-    margin:0;
-
-    font-size:23px;
-
-    color:#1f3a5f;
-
+  margin: 0;
+  color: #1f3a5f;
+  font-size: 23px;
 }
-
-
 
 #today {
-
-    margin-top:10px;
-
-    color:#777;
-
-    font-size:15px;
-
+  margin-top: 10px;
+  color: #777;
+  font-size: 15px;
 }
-
-
-
-
-
-
-
 
 /* ===== 卡片 ===== */
 
-
 .card {
-
-
-    background:white;
-
-
-    border-radius:18px;
-
-
-    padding:18px;
-
-
-    margin-bottom:16px;
-
-
-    box-shadow:
-
-    0 5px 15px rgba(0,0,0,0.06);
-
-
+  margin-bottom: 16px;
+  padding: 18px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
 }
-
-
-
-
 
 .card h2 {
-
-
-    margin:0 0 16px;
-
-
-    font-size:20px;
-
-
-    color:#1f3a5f;
-
-
+  margin: 0 0 16px;
+  color: #1f3a5f;
+  font-size: 20px;
 }
-
-
-
-
-
-
-
-
 
 /* ===== 输入 ===== */
 
-
 input,
 select {
-
-
-    width:100%;
-
-
-    height:50px;
-
-
-    padding:0 15px;
-
-
-    margin-bottom:12px;
-
-
-    border-radius:12px;
-
-
-    border:
-
-    1px solid #ddd;
-
-
-    background:#fafafa;
-
-
-    font-size:16px;
-
-
+  width: 100%;
+  height: 50px;
+  margin-bottom: 12px;
+  padding: 0 15px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fafafa;
+  font-size: 16px;
 }
-
-
-
-
 
 input:focus,
 select:focus {
-
-
-    outline:none;
-
-
-    border-color:#2563eb;
-
-
-    background:white;
-
-
+  outline: none;
+  border-color: #2563eb;
+  background: white;
 }
-
-
-
-
-
-
-
-
 
 /* ===== 按钮 ===== */
 
-
 button {
-
-
-    width:100%;
-
-
-    height:50px;
-
-
-    margin-top:10px;
-
-
-    border:none;
-
-
-    border-radius:13px;
-
-
-    background:#2563eb;
-
-
-    color:white;
-
-
-    font-size:16px;
-
-
-    font-weight:bold;
-
-
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 13px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
-
-
 
 button:active {
-
-
-    transform:scale(.98);
-
-
+  transform: scale(0.98);
 }
-
-
-
-
-
-
-
 
 /* ===== 登录 ===== */
 
-
 #loginCard {
-
-
-    margin-top:50px;
-
-
-    padding:30px 25px;
-
-
-    border-radius:24px;
-
-
-    text-align:center;
-
-
+  margin-top: 50px;
+  padding: 30px 25px;
+  border-radius: 24px;
+  text-align: center;
 }
-
-
-
-
 
 #loginCard h2 {
-
-
-    font-size:28px;
-
-
-    color:#1f3a5f;
-
-
+  color: #1f3a5f;
+  font-size: 28px;
 }
-
-
 
 #loginCard h2::before {
-
-
-    content:"🏛";
-
-
-    display:block;
-
-
-    font-size:52px;
-
-
-    margin-bottom:12px;
-
-
+  display: block;
+  margin-bottom: 12px;
+  content: "🏛";
+  font-size: 52px;
 }
-
-
-
-
 
 #loginBtn {
-
-
-    height:55px;
-
-
-    background:#1f4e79;
-
-
-    font-size:18px;
-
-
-    letter-spacing:2px;
-
-
+  height: 55px;
+  background: #1f4e79;
+  font-size: 18px;
+  letter-spacing: 2px;
 }
-
-
-
-
-
-
 
 /* ===== 退出按钮 ===== */
 
-
 #logoutBtn {
-
-
-    background:#64748b;
-
-
+  background: #64748b;
 }
-
-
-
-
-
-
-
-
 
 /* ===== 日期 ===== */
 
-
 #recordDate {
-
-
-    background:white;
-
-
-    font-size:17px;
-
-
+  background: white;
+  font-size: 17px;
 }
-
-
-
-
-
-
-
 
 /* ===== 值班人员 ===== */
 
-
 #guideCheckboxes {
-
-
-    display:flex;
-
-
-    flex-wrap:wrap;
-
-
-    gap:10px;
-
-
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-
-
 
 #guideCheckboxes label {
-
-
-    background:#eef4ff;
-
-
-    padding:10px 14px;
-
-
-    border-radius:20px;
-
-
-    font-size:16px;
-
-
+  padding: 10px 14px;
+  border-radius: 20px;
+  background: #eef4ff;
+  font-size: 16px;
 }
 
-
-
-
-
-
-
+#guideCheckboxes input {
+  width: auto;
+  height: auto;
+  margin: 0 4px 0 0;
+}
 
 /* ===== 讲解记录 ===== */
 
-
 .session {
-
-
-    background:#fafafa;
-
-
-    border:1px solid #eee;
-
-
-    border-radius:14px;
-
-
-    padding:14px;
-
-
-    margin-bottom:12px;
-
-
+  margin-bottom: 12px;
+  padding: 14px;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  background: #fafafa;
 }
-
-
-
 
 .session button {
-
-
-    background:#ef4444;
-
-
-    height:42px;
-
-
-    font-size:15px;
-
-
+  height: 42px;
+  background: #ef4444;
+  font-size: 15px;
 }
 
-
-
-
-
-
-
-
-/* ===== 数据展示 ===== */
-
+/* ===== 今日统计 ===== */
 
 .result {
-
-
-    background:#f8fafc;
-
-
-    border-radius:14px;
-
-
-    padding:15px;
-
-
-    font-size:17px;
-
-
+  padding: 15px;
+  border-radius: 14px;
+  background: #f8fafc;
+  font-size: 17px;
 }
-
-
 
 .result p {
-
-
-    margin:10px 0;
-
-
+  margin: 10px 0;
 }
 
+/* ===== 当日讲解汇总表 ===== */
 
-
-
-
-
-
-
-/* ===== 数据核对 ===== */
-
-
-#checkResult {
-
-
-    background:#f8fafc;
-
-
-    padding:15px;
-
-
-    border-radius:12px;
-
-
-    line-height:1.8;
-
-
-    font-size:16px;
-
-
-}
-
-
-
-
-
-
-
-
-/* ===== 历史记录 ===== */
-
-
-.history-item {
-
-
-    background:#fafafa;
-
-
-    padding:15px;
-
-
-    margin-top:12px;
-
-
-    border-radius:14px;
-
-
-    border:1px solid #eee;
-
-
-}
-
-
-
-.history-item button {
-
-
-    margin-top:8px;
-
-
-}
-
-
-
-
-
-
-
-
-
-/* ===== 手机优化 ===== */
-
-
-@media(max-width:480px){
-
-
-    #app {
-
-
-        padding:12px;
-
-
-    }
-
-
-
-    header h1 {
-
-
-        font-size:21px;
-
-
-    }
-
-
-
-    .card {
-
-
-        padding:15px;
-
-
-    }
-
-
-
-    .card h2 {
-
-
-        font-size:18px;
-
-
-    }
-
-
-
-    button {
-
-
-        height:52px;
-
-
-        font-size:17px;
-
-
-    }
-
-
-}
-#logoutBtn{
-
-background:#64748b;
-
-}
-/* =========================
-李林亚小牙彩蛋
-========================= */
-
-
-#giftBox{
-
-
-position:fixed;
-
-
-top:50%;
-
-
-left:50%;
-
-
-transform:
-translate(-50%,-50%);
-
-
-background:white;
-
-
-width:280px;
-
-
-padding:25px;
-
-
-border-radius:25px;
-
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.2);
-
-
-text-align:center;
-
-
-z-index:9999;
-
-
-display:none;
-
-
-animation:
-giftShow 0.5s ease;
-
-
-}
-
-
-
-
-#littleTooth{
-
-
-font-size:80px;
-
-
-animation:
-toothJump 1s infinite;
-
-
-}
-
-
-
-
-#giftText{
-
-
-margin-top:15px;
-
-
-font-size:20px;
-
-
-font-weight:bold;
-
-
-color:#1f3a5f;
-
-
-line-height:1.6;
-
-
-}
-
-
-
-
-
-@keyframes toothJump{
-
-
-0%{
-
-
-transform:
-translateY(0);
-
-
-}
-
-
-50%{
-
-
-transform:
-translateY(-15px);
-
-
-}
-
-
-100%{
-
-
-transform:
-translateY(0);
-
-
-}
-
-
-}
-
-
-
-
-
-@keyframes giftShow{
-
-
-from{
-
-
-opacity:0;
-
-
-transform:
-translate(-50%,-40%);
-
-
-}
-
-
-to{
-
-
-opacity:1;
-
-
-transform:
-translate(-50%,-50%);
-
-
-}
-
-
-}
-/* 当日讲解汇总表 */
 .summary-table {
   width: 100%;
   border-collapse: collapse;
@@ -819,6 +209,111 @@ translate(-50%,-50%);
 }
 
 .summary-table tfoot td {
-  font-weight: bold;
   background: #fafafa;
+  font-weight: bold;
+}
+
+/* ===== 历史记录 ===== */
+
+.history-item {
+  margin-top: 12px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  background: #fafafa;
+}
+
+.history-item button {
+  margin-top: 8px;
+}
+
+/* ===== 李林亚小牙彩蛋 ===== */
+
+#giftBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  display: none;
+  width: 280px;
+  padding: 25px;
+  transform: translate(-50%, -50%);
+  border-radius: 25px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: giftShow 0.5s ease;
+}
+
+.tooth {
+  font-size: 80px;
+  animation: toothJump 1s infinite;
+}
+
+#giftText {
+  margin-top: 15px;
+  color: #1f3a5f;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.6;
+}
+
+@keyframes toothJump {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes giftShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ===== 手机优化 ===== */
+
+@media (max-width: 480px) {
+  #app {
+    padding: 12px;
+  }
+
+  header h1 {
+    font-size: 21px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .card h2 {
+    font-size: 18px;
+  }
+
+  button {
+    height: 52px;
+    font-size: 17px;
+  }
+
+  .summary-table {
+    font-size: 13px;
+  }
+
+  .summary-table th,
+  .summary-table td {
+    padding: 7px 4px;
+  }
 }
