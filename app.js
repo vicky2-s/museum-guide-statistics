@@ -4,7 +4,13 @@ let currentEditingId = null;
 let weekChart = null;
 let monthChart = null;
 
+// 当前提成标准
 let currentCommission = 1.8;
+
+
+// ===============================
+// 获取当前提成规则
+// ===============================
 
 async function loadCommission(){
 
@@ -13,7 +19,7 @@ async function loadCommission(){
     .split("T")[0];
 
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("commission_rules")
     .select("*")
     .lte("effective_date", today)
@@ -24,15 +30,24 @@ async function loadCommission(){
 
 
   if(error){
-    console.log(error);
+
+    console.log(
+      "提成读取失败:",
+      error
+    );
+
     return;
+
   }
 
 
   if(data && data.length > 0){
 
     currentCommission =
-      Number(data[0].commission_per_ticket);
+      Number(
+        data[0].commission_per_ticket
+      );
+
 
     console.log(
       "当前提成:",
@@ -42,22 +57,48 @@ async function loadCommission(){
   }
 
 }
+
+
+
 // ===============================
 // 页面加载
 // ===============================
 
 window.onload = async function () {
 
+
   showToday();
+
   setDefaultDate();
 
-  await loadCommission();
+
+  // 读取提成失败不会影响登录
+  try{
+
+    await loadCommission();
+
+  }catch(error){
+
+    console.log(
+      "提成加载失败，使用默认1.8"
+    );
+
+    currentCommission = 1.8;
+
+  }
+
+
   await loadGuides();
 
+
   bindEvents();
+
+
   checkAutoLogin();
 
+
   calculate();
+
 };
 
 
