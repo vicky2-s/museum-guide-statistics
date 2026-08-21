@@ -131,6 +131,38 @@ button:active {
   background: #64748b;
 }
 
+/* ===== 提成规则 ===== */
+
+#commissionDisplay p {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+#currentCommission {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+#editCommissionBtn {
+  background: #6366f1;
+}
+
+#commissionEditForm label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+  color: #555;
+}
+
+#newCommissionRate {
+  margin-bottom: 15px;
+}
+
+.btn-cancel {
+  background: #94a3b8;
+}
+
 /* ===== 日期 ===== */
 
 #recordDate {
@@ -188,6 +220,26 @@ button:active {
   margin: 10px 0;
 }
 
+/* ===== 统计汇总文字 ===== */
+
+.stats-block {
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.stats-block h3 {
+  margin: 0 0 10px;
+  color: #1f3a5f;
+  font-size: 17px;
+}
+
+.stats-block p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+
 /* ===== 当日讲解汇总表 ===== */
 
 .summary-table {
@@ -211,6 +263,30 @@ button:active {
 .summary-table tfoot td {
   background: #fafafa;
   font-weight: bold;
+}
+
+/* ===== 日期范围汇总 ===== */
+
+.range-total {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 14px;
+  background: #f8fafc;
+  font-size: 17px;
+}
+
+.range-total p {
+  margin: 8px 0;
+}
+
+#rangeSummary h3 {
+  margin: 15px 0 8px;
+  color: #1f3a5f;
+  font-size: 17px;
+}
+
+#rangeSummary .summary-table {
+  margin-bottom: 15px;
 }
 
 /* ===== 历史记录 ===== */
@@ -242,6 +318,7 @@ button:active {
   background: white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   text-align: center;
+  cursor: pointer;
   animation: giftShow 0.5s ease;
 }
 
