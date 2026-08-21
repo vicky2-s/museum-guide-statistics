@@ -571,8 +571,7 @@ error
 
 .insert({
 effective_date:date,
-rate:rate,
-created_by:currentUser?currentUser.name:"admin"
+rate:rate
 });
 
 
