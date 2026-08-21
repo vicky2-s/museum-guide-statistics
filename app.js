@@ -4,7 +4,44 @@ let currentEditingId = null;
 let weekChart = null;
 let monthChart = null;
 
+let currentCommission = 1.8;
 
+async function loadCommission(){
+
+  const today = new Date()
+    .toISOString()
+    .split("T")[0];
+
+
+  const { data, error } = await supabase
+    .from("commission_rules")
+    .select("*")
+    .lte("effective_date", today)
+    .order("effective_date", {
+      ascending:false
+    })
+    .limit(1);
+
+
+  if(error){
+    console.log(error);
+    return;
+  }
+
+
+  if(data && data.length > 0){
+
+    currentCommission =
+      Number(data[0].commission_per_ticket);
+
+    console.log(
+      "当前提成:",
+      currentCommission
+    );
+
+  }
+
+}
 // ===============================
 // 页面加载
 // ===============================
@@ -14,6 +51,7 @@ window.onload = async function () {
   showToday();
   setDefaultDate();
 
+  await loadCommission();
   await loadGuides();
 
   bindEvents();
@@ -261,7 +299,7 @@ function calculate() {
 
   const income = count * 45;
 
-  const commission = count * 1.8;
+  const commission = count * currentCommission;
 
   document
     .getElementById("todayPeople")
