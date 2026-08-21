@@ -108,6 +108,61 @@ id="recordDate">
 
 
 
+
+<!-- 提成规则 -->
+
+<div class="card">
+
+<h2>
+⚙️ 提成规则
+</h2>
+
+
+<div id="commissionDisplay">
+
+<p>
+当前提成：<span id="currentCommission">1.8</span>元/张
+</p>
+
+
+<button id="editCommissionBtn">
+修改提成
+</button>
+
+</div>
+
+
+<div id="commissionEditForm" style="display:none;">
+
+<label>
+生效日期：
+</label>
+
+<input type="date" id="commissionEffectiveDate">
+
+
+<label>
+新的提成（元/张）：
+</label>
+
+<input type="number" id="newCommissionRate" step="0.1" min="0" placeholder="如 2.0">
+
+
+<button id="saveCommissionBtn">
+保存
+</button>
+
+
+<button id="cancelCommissionBtn" class="btn-cancel">
+取消
+</button>
+
+</div>
+
+
+</div>
+
+
 <!-- 今日值班 -->
 
 <div class="card">
@@ -541,11 +596,6 @@ id="summaryEndDate">
 
 
 </div>
-
-
-
-
-
 
 
 
