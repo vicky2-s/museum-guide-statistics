@@ -51,7 +51,7 @@ window.onload = async function () {
   showToday();
   setDefaultDate();
 
-  // await loadCommission();
+  await loadCommission();
   await loadGuides();
 
   bindEvents();
