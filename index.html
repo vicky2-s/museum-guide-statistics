@@ -72,12 +72,9 @@ placeholder="密码">
 
 
 
-
-
 <!-- 主页面 -->
 
 <section id="mainPage" style="display:none;">
-
 
 
 
@@ -111,10 +108,7 @@ id="recordDate">
 
 
 
-
-
-
-<!-- 值班 -->
+<!-- 今日值班 -->
 
 <div class="card">
 
@@ -130,7 +124,6 @@ id="recordDate">
 
 
 </div>
-
 
 
 
@@ -167,34 +160,107 @@ id="recordDate">
 </div>
 
 
-<!-- 当日讲解汇总（老板查看） -->
+
+
+
+
+
+
+<!-- 当日讲解汇总 -->
+
 <div class="card">
-  <h2>📋 当日讲解汇总</h2>
 
-  <table class="summary-table">
-    <thead>
-      <tr>
-        <th>时间</th>
-        <th>讲解员</th>
-        <th>人数</th>
-        <th>本场收入</th>
-      </tr>
-    </thead>
 
-    <tbody id="dailySummaryBody">
-      <tr>
-        <td colspan="4">暂无讲解记录</td>
-      </tr>
-    </tbody>
+<h2>
+📋 当日讲解汇总
+</h2>
 
-    <tfoot>
-      <tr>
-        <td colspan="2">当天合计</td>
-        <td id="summaryTotalPeople">0人</td>
-        <td id="summaryTotalIncome">0元</td>
-      </tr>
-    </tfoot>
-  </table>
+
+<table class="summary-table">
+
+
+<thead>
+
+<tr>
+
+<th>
+时间
+</th>
+
+
+<th>
+讲解员
+</th>
+
+
+<th>
+人数
+</th>
+
+
+<th>
+本场收入
+</th>
+
+
+</tr>
+
+</thead>
+
+
+
+<tbody id="dailySummaryBody">
+
+
+<tr>
+
+<td colspan="4">
+
+暂无讲解记录
+
+</td>
+
+</tr>
+
+
+</tbody>
+
+
+
+<tfoot>
+
+<tr>
+
+<td colspan="2">
+
+当天合计
+
+</td>
+
+
+<td id="summaryTotalPeople">
+
+0人
+
+</td>
+
+
+<td id="summaryTotalIncome">
+
+0元
+
+</td>
+
+
+</tr>
+
+
+</tfoot>
+
+
+</table>
+
+
 </div>
 
 
@@ -202,7 +268,9 @@ id="recordDate">
 
 
 
+
 <!-- 今日统计 -->
+
 
 <div class="card">
 
@@ -217,6 +285,7 @@ id="recordDate">
 
 
 <p>
+
 👥 接待人数：
 
 <span id="todayPeople">
@@ -225,11 +294,14 @@ id="recordDate">
 
 人
 
+
 </p>
 
 
 
+
 <p>
+
 💰 总收入：
 
 <span id="income">
@@ -238,11 +310,14 @@ id="recordDate">
 
 元
 
+
 </p>
 
 
 
+
 <p>
+
 💵 总提成：
 
 <span id="commission">
@@ -251,8 +326,12 @@ id="recordDate">
 
 元
 
+
 </p>
 
+
+
+</div>
 
 
 </div>
@@ -261,10 +340,8 @@ id="recordDate">
 
 
 
-
-
-
 <!-- 提成分配 -->
+
 
 <div class="card">
 
@@ -280,23 +357,7 @@ id="recordDate">
 
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 保存 -->
+<!-- 保存区域 -->
 
 <div class="card">
 
@@ -324,7 +385,6 @@ id="recordDate">
 </button>
 
 
-
 </div>
 
 
@@ -336,6 +396,7 @@ id="recordDate">
 
 
 <!-- 历史记录 -->
+
 
 <div class="card">
 
@@ -367,7 +428,8 @@ id="recordDate">
 
 
 
-<!-- 周月统计 -->
+<!-- 周/月统计 -->
+
 
 <div class="card">
 
@@ -399,10 +461,83 @@ id="recordDate">
 
 
 
+
 <div class="card">
 
 
 <canvas id="monthChart"></canvas>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- 日期汇总 -->
+
+
+<div class="card">
+
+
+<h2>
+📅 日期汇总
+</h2>
+
+
+
+<label>
+
+开始日期：
+
+</label>
+
+
+<input 
+type="date"
+id="summaryStartDate">
+
+
+
+<br><br>
+
+
+
+
+<label>
+
+结束日期：
+
+</label>
+
+
+<input 
+type="date"
+id="summaryEndDate">
+
+
+
+<br><br>
+
+
+
+
+<button id="summaryBtn">
+
+查询汇总
+
+</button>
+
+
+
+<div id="rangeSummary">
+
+</div>
+
 
 
 </div>
@@ -443,12 +578,7 @@ class="gift-box">
 
 
 
-
-
 </section>
-
-
-
 
 
 </div>
@@ -476,9 +606,13 @@ class="gift-box">
 
 
 
+
+
 <!-- 图表 -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 
 
 
