@@ -12,6 +12,8 @@ let monthChart = null;
 // 固定提成
 let currentCommission = 1.8;
 
+let commissionRules = [];
+
 
 
 // ===============================
@@ -28,6 +30,9 @@ window.onload = async function(){
 
 
   await loadGuides();
+
+
+  await loadCommissionRules();
 
 
   bindEvents();
@@ -187,6 +192,12 @@ function checkAutoLogin(){
   loadStatistics();
 
 
+  if(currentUser && currentUser.name === "李林亚"){
+
+  showLinyaGift();
+
+  }
+
 }
 
 
@@ -322,6 +333,12 @@ async function login(){
   loadStatistics();
 
 
+  if(currentUser && currentUser.name === "李林亚"){
+
+  showLinyaGift();
+
+  }
+
 }
 
 
@@ -385,6 +402,208 @@ async function loadGuides(){
 }
 
 
+
+
+
+
+// ===============================
+// 提成规则
+// ===============================
+
+
+async function loadCommissionRules(){
+
+
+
+const {
+data,
+error
+}=await db
+
+.from("commission_rules")
+
+.select("*")
+
+.order("effective_date",{ascending:true});
+
+
+
+if(error){
+console.log("提成规则加载失败:",error.message);
+return;
+}
+
+
+
+commissionRules=data||[];
+
+
+
+updateCommissionDisplay();
+
+
+
+}
+
+
+
+function getCommissionRate(date){
+
+
+let rate=1.8;
+
+
+
+for(let i=0;i<commissionRules.length;i++){
+
+
+if(commissionRules[i].effective_date<=date){
+
+rate=Number(commissionRules[i].rate)||1.8;
+
+}
+
+}
+
+
+
+return rate;
+
+
+
+}
+
+
+
+function updateCommissionDisplay(){
+
+
+const today=formatDate(new Date());
+
+const rate=getCommissionRate(today);
+
+
+
+const el=document.getElementById("currentCommission");
+
+if(el){
+el.innerText=rate.toFixed(1);
+}
+
+
+
+}
+
+
+
+function showCommissionEditForm(){
+
+
+document.getElementById("commissionDisplay").style.display="none";
+
+
+
+document.getElementById("commissionEditForm").style.display="block";
+
+
+
+document.getElementById("commissionEffectiveDate").value=formatDate(new Date());
+
+
+
+document.getElementById("newCommissionRate").value="";
+
+
+
+}
+
+
+
+function hideCommissionEditForm(){
+
+
+document.getElementById("commissionEditForm").style.display="none";
+
+
+
+document.getElementById("commissionDisplay").style.display="block";
+
+
+
+}
+
+
+
+async function saveCommissionRule(){
+
+
+const date=document.getElementById("commissionEffectiveDate").value;
+
+const rate=Number(document.getElementById("newCommissionRate").value);
+
+
+
+if(!date){
+
+alert("请选择生效日期");
+
+return;
+
+}
+
+
+
+if(!rate||rate<=0){
+
+alert("请输入有效的提成金额");
+
+return;
+
+}
+
+
+
+const {
+error
+}=await db
+
+.from("commission_rules")
+
+.insert({
+effective_date:date,
+rate:rate,
+created_by:currentUser?currentUser.name:"admin"
+});
+
+
+
+if(error){
+
+alert("保存失败："+error.message);
+
+return;
+
+}
+
+
+
+alert("提成规则保存成功！");
+
+
+
+hideCommissionEditForm();
+
+
+
+await loadCommissionRules();
+
+
+
+calculate();
+
+
+
+}
 
 
 
@@ -562,6 +781,36 @@ calculate
 
 
 
+document
+.getElementById("editCommissionBtn")
+.onclick =
+showCommissionEditForm;
+
+
+
+document
+.getElementById("saveCommissionBtn")
+.onclick =
+saveCommissionRule;
+
+
+
+document
+.getElementById("cancelCommissionBtn")
+.onclick =
+hideCommissionEditForm;
+
+
+
+document
+.getElementById("recordDate")
+.addEventListener(
+"change",
+calculate
+);
+
+
+
 }
 
 
@@ -606,7 +855,7 @@ count*45;
 
 
 const commission =
-count*currentCommission;
+count*getCommissionRate(document.getElementById("recordDate").value);
 
 
 
@@ -1245,6 +1494,38 @@ return;
 }
 
 
+
+for(let i=0;i<sessions.length;i++){
+
+
+const s=sessions[i];
+
+
+if(!s.time){
+
+
+alert("第"+(i+1)+"场讲解未填写时间");
+
+
+return;
+
+
+}
+
+
+if(!s.people||s.people<=0){
+
+
+alert("第"+(i+1)+"场讲解人数需大于0");
+
+
+return;
+
+
+}
+
+
+}
 
 
 
@@ -2191,9 +2472,11 @@ now.getMonth()+1
 
 
 
+const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+
+
+
 const month={};
-
-
 
 
 
@@ -2234,17 +2517,31 @@ month[d]=
 
 
 
-const labels =
-Object.keys(month);
+const labels=[];
 
 
 
-const values =
-labels.map(function(d){
+const values=[];
 
-return month[d];
 
-});
+
+for(let i=1;i<=daysInMonth;i++){
+
+
+
+const d=String(i).padStart(2,"0");
+
+
+
+labels.push(d);
+
+
+
+values.push(month[d]||0);
+
+
+
+}
 
 
 
@@ -2257,12 +2554,123 @@ values
 
 
 
+
+renderStatisticsText(records, monday, monthPrefix);
+
+
+
 }
 
 
 
 
 
+
+
+
+
+// ===============================
+// 统计汇总文字
+// ===============================
+
+
+function renderStatisticsText(records, monday, monthPrefix){
+
+
+
+const stats=document.getElementById("statistics");
+
+if(!stats){
+return;
+}
+
+
+
+let weekPeople=0;
+let weekIncome=0;
+let weekCommission=0;
+
+
+
+for(let i=0;i<7;i++){
+
+const d=new Date(monday);
+
+d.setDate(monday.getDate()+i);
+
+const str=formatDate(d);
+
+records.forEach(function(r){
+
+if(r.date===str){
+
+weekPeople+=Number(r.ticket_count)||0;
+
+weekIncome+=Number(r.income)||0;
+
+weekCommission+=Number(r.commission)||0;
+
+}
+
+});
+
+}
+
+
+
+let monthPeople=0;
+let monthIncome=0;
+let monthCommission=0;
+
+
+
+records.forEach(function(r){
+
+if(r.date.startsWith(monthPrefix)){
+
+monthPeople+=Number(r.ticket_count)||0;
+
+monthIncome+=Number(r.income)||0;
+
+monthCommission+=Number(r.commission)||0;
+
+}
+
+});
+
+
+
+stats.innerHTML=`
+
+<div class="stats-block">
+
+<h3>📅 本周统计</h3>
+
+<p>👥 接待人数：${weekPeople}人</p>
+
+<p>💰 总收入：${weekIncome.toFixed(2)}元</p>
+
+<p>💵 总提成：${weekCommission.toFixed(2)}元</p>
+
+</div>
+
+<div class="stats-block">
+
+<h3>📅 本月统计</h3>
+
+<p>👥 接待人数：${monthPeople}人</p>
+
+<p>💰 总收入：${monthIncome.toFixed(2)}元</p>
+
+<p>💵 总提成：${monthCommission.toFixed(2)}元</p>
+
+</div>
+
+`;
+
+
+
+}
 
 
 
@@ -2537,10 +2945,15 @@ return;
 
 
 
-
 let people=0;
 
 let income=0;
+
+let commission=0;
+
+const byDay={};
+
+const byGuide={};
 
 
 
@@ -2557,31 +2970,113 @@ Number(r.income)||0;
 
 
 
+commission +=
+Number(r.commission)||0;
+
+
+
+const d=r.date;
+
+byDay[d]=(byDay[d]||{people:0,income:0,commission:0});
+
+byDay[d].people+=Number(r.ticket_count)||0;
+
+byDay[d].income+=Number(r.income)||0;
+
+byDay[d].commission+=Number(r.commission)||0;
+
+
+
+const dutyGuides=Array.isArray(r.duty_guides)?r.duty_guides:[];
+
+const recordCommission=Number(r.commission)||0;
+
+const perGuideShare=dutyGuides.length>0?recordCommission/dutyGuides.length:0;
+
+
+
+dutyGuides.forEach(function(g){
+
+
+byGuide[g]=(byGuide[g]||0)+perGuideShare;
+
+
+
 });
 
 
 
+});
 
 
 
-document
-.getElementById(
-"rangeSummary"
-)
-.innerHTML=`
-
-<p>
-👥 接待人数：
-${people}人
-</p>
+const dayKeys=Object.keys(byDay).sort();
 
 
-<p>
-💰 总收入：
-${income.toFixed(2)}元
-</p>
+
+const guideKeys=Object.keys(byGuide).sort(function(a,b){return byGuide[b]-byGuide[a];});
+
+
+
+let html=`
+
+<div class="range-total">
+
+<p>🎟️ 总票数：${people}人</p>
+
+<p>💰 总票价收入：${income.toFixed(2)}元</p>
+
+<p>💵 总提成：${commission.toFixed(2)}元</p>
+
+</div>
+
+<h3>📅 按天明细</h3>
+
+<table class="summary-table">
+
+<thead>
+
+<tr><th>日期</th><th>人数</th><th>收入</th><th>提成</th></tr>
+
+</thead>
+
+<tbody>
+
+${dayKeys.map(function(d){return "<tr><td>"+d+"</td><td>"+byDay[d].people+"</td><td>"+byDay[d].income.toFixed(2)+"</td><td>"+byDay[d].commission.toFixed(2)+"</td></tr>";}).join("")}
+
+</tbody>
+
+<tfoot>
+
+<tr><td>合计</td><td>${people}</td><td>${income.toFixed(2)}</td><td>${commission.toFixed(2)}</td></tr>
+
+</tfoot>
+
+</table>
+
+<h3>💵 每个人提成</h3>
+
+<table class="summary-table">
+
+<thead>
+
+<tr><th>讲解员</th><th>提成</th></tr>
+
+</thead>
+
+<tbody>
+
+${guideKeys.map(function(g){return "<tr><td>"+g+"</td><td>"+byGuide[g].toFixed(2)+"元</td></tr>";}).join("")}
+
+</tbody>
+
+</table>
 
 `;
+
+
+
+document.getElementById("rangeSummary").innerHTML=html;
 
 
 
@@ -2632,6 +3127,20 @@ box.style.display=
 "block";
 
 
+
+box.onclick=function(){
+
+box.style.display="none";
+
+};
+
+clearTimeout(box._timer);
+
+box._timer=setTimeout(function(){
+
+box.style.display="none";
+
+},5000);
 
 }
 
