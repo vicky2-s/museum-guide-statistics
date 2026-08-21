@@ -58,6 +58,88 @@ async function loadCommission(){
 
 }
 
+// ===============================
+// 保存提成规则
+// ===============================
+
+async function saveCommission(){
+
+  const date =
+    document
+      .getElementById("commissionDate")
+      .value;
+
+
+  const value =
+    Number(
+      document
+        .getElementById("commissionValue")
+        .value
+    );
+
+
+  if(!date){
+
+    alert("请选择生效日期");
+    return;
+
+  }
+
+
+  if(!value || value < 0){
+
+    alert("请输入正确的提成金额");
+    return;
+
+  }
+
+
+
+  const { data, error } = await db
+    .from("commission_rules")
+    .insert({
+
+      effective_date: date,
+
+      commission_per_ticket: value
+
+    });
+
+
+
+  if(error){
+
+    alert(
+      "保存失败：" + error.message
+    );
+
+    console.log(error);
+
+    return;
+
+  }
+
+
+
+  currentCommission = value;
+
+
+  document
+    .getElementById("currentCommissionText")
+    .innerText = value;
+
+
+
+  alert(
+    "提成设置成功！\n" +
+    date +
+    "开始：" +
+    value +
+    "元/张"
+  );
+
+
+}
 
 
 // ===============================
@@ -312,6 +394,10 @@ function bindEvents() {
   document.getElementById("newBtn").onclick = newToday;
 
   document.getElementById("logoutBtn").onclick = logout;
+
+  document
+.getElementById("saveCommissionBtn")
+.onclick = saveCommission;
 
   document
     .getElementById("sessionList")
